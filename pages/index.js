@@ -1,8 +1,38 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import { useState, useEffect } from "react";
+// import { Octokit } from "@octokit/core";
+import getOneUserMeta from "../lib/getOneUserMeta";
 export default function Home() {
+  const [userName, setUserName] = useState("");
+  const [returnObj, setReturnObj] = useState("");
+  // const [trys, setTry] = useState("");
+  const handleNameInput = (e) => {
+    setUserName(e.target.value);
+  };
+
+  // const octokit = new Octokit({
+  //   auth: `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`,
+  // });
+  // useEffect(() => {
+  //   const trytry = async () => {
+  //     try {
+  //       const res = await octokit.request("GET /users");
+  //       setTry(trys);
+  //     } catch (error) {
+  //       console.error("Some thing wrong");
+  //     }
+  //   };
+  //   console.log(trys);
+  //   trytry();
+  // }, [userName]);
+
+  useEffect(() => {
+    console.log(returnObj);
+    getOneUserMeta(userName, setReturnObj);
+  }, [userName]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -17,7 +47,7 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
 
@@ -50,6 +80,32 @@ export default function Home() {
             </p>
           </a>
         </div>
+        <div>
+          <input
+            type="text"
+            placeholder="name"
+            value={userName}
+            onChange={handleNameInput}
+          />
+          {/* {typeof returnObj !== "undefined" &&
+          typeof returnObj.data !== "undefined" &&
+          typeof returnObj.data[0] !== "undefined" &&
+          typeof returnObj.data[0].id !== "undefined"
+            ? <span>returnObj.data[0].id</span> && (
+                <img src={`${returnObj.data[0].owner.avatar_url}`} />
+              )
+            : "no data"} */}
+
+          {typeof returnObj !== "undefined" &&
+          typeof returnObj.data !== "undefined" ? (
+            <div>
+              <p>{returnObj.data.name}</p>
+              <img src={returnObj.data.avatar_url} />
+            </div>
+          ) : (
+            "no data"
+          )}
+        </div>
       </main>
 
       <footer className={styles.footer}>
@@ -58,12 +114,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }
