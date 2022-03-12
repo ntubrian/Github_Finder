@@ -31,6 +31,9 @@ export default function Home() {
   useEffect(() => {
     console.log(returnObj);
     getOneUserMeta(userName, setReturnObj);
+    if (userName === "") {
+      setReturnObj("");
+    }
   }, [userName]);
 
   return (
@@ -42,7 +45,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
+        {/* <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
@@ -79,7 +82,7 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
-        </div>
+        </div> */}
         <div>
           <input
             type="text"
