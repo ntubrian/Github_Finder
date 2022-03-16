@@ -3,10 +3,12 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState, useEffect } from "react";
 // import { Octokit } from "@octokit/core";
-import getOneUserMeta from "../lib/getOneUserMeta";
+import { getOneUserMeta } from "../lib/getOneUserMeta";
+import Result from "../components/Results";
 export default function Home() {
   const [userName, setUserName] = useState("");
   const [returnObj, setReturnObj] = useState("");
+  const [userReposRoute, setUserReposRoute] = useState("");
   // const [trys, setTry] = useState("");
   const handleNameInput = (e) => {
     setUserName(e.target.value);
@@ -30,10 +32,16 @@ export default function Home() {
 
   useEffect(() => {
     console.log(returnObj);
-    getOneUserMeta(userName, setReturnObj);
-    if (userName === "") {
-      setReturnObj("");
-    }
+    const fetchPicAndName = async () => {
+      if (userName === "") {
+        setReturnObj("");
+      } else {
+        const returnPicAndName = await getOneUserMeta(userName);
+        setReturnObj(returnPicAndName);
+      }
+    };
+
+    fetchPicAndName();
   }, [userName]);
 
   return (
@@ -90,6 +98,7 @@ export default function Home() {
             value={userName}
             onChange={handleNameInput}
           />
+
           {/* {typeof returnObj !== "undefined" &&
           typeof returnObj.data !== "undefined" &&
           typeof returnObj.data[0] !== "undefined" &&
@@ -99,7 +108,7 @@ export default function Home() {
               )
             : "no data"} */}
 
-          {typeof returnObj !== "undefined" &&
+          {/* {typeof returnObj !== "undefined" &&
           typeof returnObj.data !== "undefined" ? (
             <div>
               <p>{returnObj.data.name}</p>
@@ -107,7 +116,8 @@ export default function Home() {
             </div>
           ) : (
             "no data"
-          )}
+          )} */}
+          <Result href={`users/${userName}/repos`} meta={returnObj}></Result>
         </div>
       </main>
 
