@@ -37,6 +37,7 @@ export default function Home() {
         setReturnObj("");
       } else {
         const returnPicAndName = await getOneUserMeta(userName);
+        console.log(returnPicAndName);
         setReturnObj(returnPicAndName);
       }
     };

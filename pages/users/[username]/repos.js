@@ -1,13 +1,22 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../../_app";
 import { List, message, Avatar, Skeleton, Divider, Empty } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { ACTION_TYPES } from "../../_app";
 import "antd/dist/antd.css";
+import Image from "next/image";
+import Head from "next/head";
 const repos = (props) => {
   // console.log("props", props);
   const routerProps = useRouter();
-  console.log("routerProps", routerProps);
+  // console.log("routerProps", routerProps);
+  const { indexPageState, dispatch } = useContext(UserContext);
+  console.log("###indexPageState###", indexPageState);
   const userName = routerProps.query.username;
+
+  // 跳到這個route才設定inputUserName可能有點怪？
+
   const publicRepoLength = routerProps.query.public_repos;
 
   // console.log("routerProps",routerProps)
@@ -44,11 +53,47 @@ const repos = (props) => {
   };
 
   useEffect(() => {
+    dispatch({
+      type: ACTION_TYPES.SET_INPUT_USER_NAME,
+      payload: { inputUserName: userName },
+    });
     fetchRepos();
   }, []);
   return (
-    <div>
-      <p>{routerProps.query.username}</p>
+    <div
+      style={{
+        display: "flex",
+        paddingTop: "10vh",
+      }}
+    >
+      <Head>
+        <title>{`${userName}'s github repos`}</title>
+        <meta name="description" content={`${userName}'s github repos`}></meta>
+      </Head>
+      <div
+        style={{
+          textAlign: "center",
+          paddingLeft: "5vw",
+        }}
+      >
+        <div
+          style={{
+            // borderRadius: "50%",
+            // overflow: "hidden",
+            display: "inline",
+          }}
+        >
+          <Image
+            src={indexPageState.userAvatarUrl[0]}
+            width={260}
+            height={160}
+            layout="fixed"
+            objectFit="cover"
+          ></Image>
+        </div>
+        <h2>{indexPageState.userRealName}</h2>
+        <p>{routerProps.query.username}</p>
+      </div>
       {/* <div>
         {typeof userMeta !== "undefined" &&
         typeof userMeta.data !== "undefined" &&
@@ -76,7 +121,8 @@ const repos = (props) => {
         <div
           id="scrollableDiv"
           style={{
-            height: 400,
+            height: 300,
+            width: 400,
             overflow: "auto",
             padding: "0 16px",
             border: "1px solid rgba(140, 140, 140, 0.35)",
@@ -92,24 +138,29 @@ const repos = (props) => {
           >
             <List
               dataSource={userMeta}
-              locale={{ emptyText: "Loading" }}
+              locale={{
+                emptyText:
+                  publicRepoLength > 0
+                    ? "Loading"
+                    : "This guy is so LAZY！！！ Not Even a repo",
+              }}
               renderItem={(item) => (
                 <List.Item key={item.id}>
                   <List.Item.Meta
                     // avatar={<Avatar src={item.picture.large} />}
                     title={item.name}
-                    description={`🌟${item.stargazers_count}`}
+                    // description={`🌟${item.stargazers_count}`}
                   />
-                  <div>{item.stargazers_count}</div>
+                  <div>{`🌟${item.stargazers_count}`}</div>
                 </List.Item>
               )}
             />
           </InfiniteScroll>
         </div>
       </div>
-      <div>
+      {/* <div>
         <p>{page}</p>
-      </div>
+      </div> */}
     </div>
   );
 };
