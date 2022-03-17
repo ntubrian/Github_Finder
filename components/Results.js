@@ -4,9 +4,9 @@ import { useState, useEffect, useContext } from "react";
 import { ACTION_TYPES, UserContext } from "../pages/_app";
 
 const Result = (props) => {
-  const { href, meta } = props;
+  const { userName, meta } = props;
   const [new_href, setNewHref] = useState("");
-  const { dispatch } = useContext(UserContext);
+  const { indexPageState, dispatch } = useContext(UserContext);
   const examineUndefined = () => {
     if (typeof meta !== "undefined" && typeof meta.data !== "undefined") {
       // dispatch({
@@ -20,19 +20,26 @@ const Result = (props) => {
 
   useEffect(() => {
     if (examineUndefined()) {
-      setNewHref(href + `?public_repos=${meta.data.public_repos}`);
-      
+      console.log("###Meta", meta.data.login);
       dispatch({
-        type: ACTION_TYPES.USER_REAL_URL,
+        type: ACTION_TYPES.SET_INPUT_USER_NAME,
+        payload: { inputUserName: meta.data.login },
+      });
+      dispatch({
+        type: ACTION_TYPES.SET_USER_REAL_NAME,
         payload: { userRealName: meta.data.name },
       });
       dispatch({
         type: ACTION_TYPES.SET_USER_AVATAR_URL,
         payload: { userAvatarUrl: [meta.data.avatar_url] },
       });
+      setNewHref(
+        `users/${meta.data.login}/repos` +
+          `?public_repos=${meta.data.public_repos}`
+      );
     }
-  }, [href, meta]);
-  console.log(meta);
+  }, [userName, meta]);
+
   return (
     <Link href={examineUndefined() ? new_href : ""}>
       {/* <Image src={props.imgUrl} width={260} height={160}></Image> */}
