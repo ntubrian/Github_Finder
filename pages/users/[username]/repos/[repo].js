@@ -6,7 +6,13 @@ const repo = () => {
   console.log(indexPageState.selectedRepoDescription);
   return (
     <div>
-      <p>{indexPageState.selectedRepoName}</p>
+      {/* <p>{indexPageState.selectedRepoName}</p> */}
+      <a
+        href={`https://github.com/${indexPageState.inputUserName}/${indexPageState.selectedRepoName}`}
+        target="_blank"
+      >
+        {indexPageState.selectedRepoName}
+      </a>
       <p>
         {indexPageState.selectedRepoDescription === null
           ? "This guy is lazy to leave a project description!!!"
