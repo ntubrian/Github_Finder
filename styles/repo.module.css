@@ -1,0 +1,57 @@
+.repoContainer {
+  text-align: center;
+  padding-top: 5vh;
+}
+
+.repoName {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.repoDescription {
+  font-size: 16px;
+}
+.starCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.starSize {
+  font-size: 40px;
+  margin-bottom: 70px;
+}
+.starCountNum {
+  font-size: 70px;
+  color: #77828c;
+}
+
+@media screen and (min-width: 600px) {
+  .repoContainer {
+    text-align: center;
+    padding-top: 5vh;
+  }
+
+  .repoName {
+    font-size: 50px;
+    font-weight: bold;
+  }
+
+  .repoDescription {
+    font-size: 20px;
+  }
+  .starCount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .starSize {
+    font-size: 70px;
+    margin-bottom: 100px;
+  }
+  .starCountNum {
+    font-size: 100px;
+    color: #77828c;
+  }
+}

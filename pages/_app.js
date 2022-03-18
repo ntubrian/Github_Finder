@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
 import "../styles/globals.css";
-
+import "../styles/variables.less";
 export const UserContext = createContext();
 export const ACTION_TYPES = {
   SET_INPUT_USER_NAME: "SET_INPUT_USER_NAME",

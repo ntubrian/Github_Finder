@@ -1,14 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useState, useEffect } from "react";
-// import { Octokit } from "@octokit/core";
+import { useState, useEffect, useContext } from "react";
 import { getOneUserMeta } from "../lib/getOneUserMeta";
 import Result from "../components/Results";
+import { ACTION_TYPES, UserContext } from "../pages/_app";
 export default function Home() {
   const [userName, setUserName] = useState("");
   const [returnObj, setReturnObj] = useState("");
-  const [userReposRoute, setUserReposRoute] = useState("");
+  const { indexPageState, dispatch } = useContext(UserContext);
   // const [trys, setTry] = useState("");
   const handleNameInput = (e) => {
     setUserName(e.target.value);
@@ -30,6 +30,13 @@ export default function Home() {
   //   trytry();
   // }, [userName]);
 
+  const examineUndefined = (meta) => {
+    if (typeof meta !== "undefined" && typeof meta.data !== "undefined") {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     console.log(returnObj);
     const fetchPicAndName = async () => {
@@ -41,6 +48,9 @@ export default function Home() {
         setReturnObj(returnPicAndName);
       }
     };
+    if (examineUndefined(returnObj)) {
+      
+    }
 
     fetchPicAndName();
   }, [userName]);

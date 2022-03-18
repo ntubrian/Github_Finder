@@ -2,3 +2,86 @@
   cursor: pointer;
   background-color: rgba(165, 42, 42, 0.37);
 }
+
+.oddGroupPage {
+  background-color: #006aa6;
+}
+
+.evenGroupPage {
+  background-color: #00324e;
+}
+
+.outerContainer {
+  /* text-align: center; */
+
+  padding-top: 10vh;
+}
+
+.profileContainer {
+  text-align: center;
+}
+
+.title {
+  color: white;
+  margin-bottom: 0;
+  padding-left: 10px;
+}
+.starContext {
+  color: white;
+  padding-right: 10px;
+}
+
+.reposContainer {
+  display: flex;
+  justify-content: center;
+}
+.scroll {
+  min-width: 300px;
+}
+
+@media screen and (min-width: 600px) {
+  .listItem:hover {
+    cursor: pointer;
+    background-color: rgba(165, 42, 42, 0.37);
+  }
+  .oddGroupPage {
+    background-color: #006aa6;
+  }
+
+  .evenGroupPage {
+    background-color: #00324e;
+  }
+  .outerContainer {
+    display: flex;
+    padding-top: 10vh;
+  }
+  .profileContainer {
+    text-align: center;
+    padding-left: 5vw;
+    padding-top: 24px;
+  }
+  .picContainer {
+    display: inline;
+  }
+
+  .reposContainer {
+    padding: 24px;
+  }
+  .title {
+    color: white;
+    margin-bottom: 0;
+    padding-left: 10px;
+  }
+  .starContext {
+    color: white;
+    padding-right: 10px;
+  }
+
+  /* #scrollableDiv {
+    height: 300px;
+    width: 400px;
+    overflow: auto;
+    padding: 0 16;
+    border: 1px solid rgba(140, 140, 140, 0.35);
+  } */
+}

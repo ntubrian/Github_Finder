@@ -7,7 +7,7 @@ const getUserRepos = async (req, res) => {
     const response = await getOneUserReposMeta(username, page);
     res.status(200);
     res.json(response);
-    console.log(response);
+    // console.log(response);
   } catch (error) {
     console.error("Backend API Error");
   }

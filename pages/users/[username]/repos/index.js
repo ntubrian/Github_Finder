@@ -10,6 +10,7 @@ import Head from "next/head";
 import Link from "next/link";
 import style from "../../../../styles/repos.module.css";
 const repos = (props) => {
+  const [idArr, setId] = useState(Array(10).fill(0));
   // console.log("props", props);
   const routerProps = useRouter();
   // console.log("routerProps", routerProps);
@@ -26,7 +27,7 @@ const repos = (props) => {
   const [userMeta, setUserMeta] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  console.log(userMeta);
+  // console.log("@@@@", userMeta);
   const ContainerHeight = 400;
   const onScroll = (e) => {
     if (e.target.scrollHeight - e.target.scrollTop === ContainerHeight) {
@@ -63,11 +64,27 @@ const repos = (props) => {
         `../../api/getUserRepos?username=${indexPageState.inputUserName}&page=${page}`
       );
       const result = await response.json();
+      // console.log("RRR", result);
+      const arr = [];
+      // console.log("DATSTTSTS", result.data);
+      // console.log("tyoeof@@@@", typeof result);
+      // for (let i = 0; i < result.length; i++) {
+      //   // arr.push(result[i].id);
+      //   console.log("@");
+      //   console.log("########", result.data[i].id);
+      // }
+      result.data.forEach((element) => {
+        arr.push(element.id);
+      });
+      // console.log("AAA", arr);
+      setId(idArr.concat(arr));
+      console.log(idArr);
       setUserMeta(userMeta.concat(result.data));
       setLoading(false);
       console.log(result);
     } catch (error) {
-      console.error("api response error");
+      console.log(error);
+      // console.error("api response error");
       setLoading(false);
     }
     console.log(userMeta);
@@ -81,28 +98,27 @@ const repos = (props) => {
     fetchRepos();
   }, []);
   return (
-    <div
-      style={{
-        display: "flex",
-        paddingTop: "10vh",
-      }}
-    >
+    <div className={style.outerContainer}>
       <Head>
         <title>{`${userName}'s github repos`}</title>
         <meta name="description" content={`${userName}'s github repos`}></meta>
       </Head>
       <div
-        style={{
-          textAlign: "center",
-          paddingLeft: "5vw",
-        }}
+        className={style.profileContainer}
+        // style={{
+        //   textAlign: "center",
+        //   paddingLeft: "5vw",
+        // }}
       >
         <div
-          style={{
-            // borderRadius: "50%",
-            // overflow: "hidden",
-            display: "inline",
-          }}
+          className={style.picContainer}
+          style={
+            {
+              // borderRadius: "50%",
+              // overflow: "hidden",
+              // display: "inline",
+            }
+          }
         >
           <Image
             src={indexPageState.userAvatarUrl[0]}
@@ -126,7 +142,7 @@ const repos = (props) => {
                   return (
                     <li>
                       <span>{data.name}</span>
-                      <span> 🌟{data.stargazers_count}</span>
+                      <span> ⭐{data.stargazers_count}</span>
                     </li>
                   );
                 })}
@@ -135,15 +151,19 @@ const repos = (props) => {
           : "no data"}
       </div> */}
       <div
-        style={{
-          padding: "24px",
-        }}
+        className={style.reposContainer}
+        style={
+          {
+            // padding: "24px",
+          }
+        }
       >
         <div
           id="scrollableDiv"
+          className={style.scroll}
           style={{
             height: 300,
-            width: 400,
+            width: "50vw",
             overflow: "auto",
             padding: "0 16px",
             border: "1px solid rgba(140, 140, 140, 0.35)",
@@ -163,7 +183,7 @@ const repos = (props) => {
                 emptyText:
                   publicRepoLength > 0
                     ? "Loading"
-                    : "This guy is so LAZY！！！ Not Even a repo",
+                    : "This guy is so LAZY!!! Not Even a repo",
               }}
               renderItem={(item) => (
                 <Link
@@ -172,14 +192,21 @@ const repos = (props) => {
                   <List.Item
                     key={item.id}
                     onClick={() => setSeletedRepoContext(item)}
-                    className={style.listItem}
+                    className={`${style.listItem} ${
+                      Math.floor(idArr.indexOf(item.id) / 10) % 2 == 1
+                        ? style.oddGroupPage
+                        : style.evenGroupPage
+                    }`}
                   >
                     <List.Item.Meta
+                      // style={{ color: "white" }}
                       // avatar={<Avatar src={item.picture.large} />}
-                      title={item.name}
+                      title={<p className={style.title}>{item.name}</p>}
                       // description={`🌟${item.stargazers_count}`}
                     />
-                    <div>{`🌟${item.stargazers_count}`}</div>
+                    <div
+                      className={style.starContext}
+                    >{`⭐${item.stargazers_count}`}</div>
                   </List.Item>
                 </Link>
               )}
