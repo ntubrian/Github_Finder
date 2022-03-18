@@ -1,0 +1,4 @@
+.listItem:hover {
+  cursor: pointer;
+  background-color: rgba(165, 42, 42, 0.37);
+}

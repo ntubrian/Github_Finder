@@ -1,12 +1,14 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../../_app";
+import { UserContext, ACTION_TYPES } from "../../../_app";
 import { List, message, Avatar, Skeleton, Divider, Empty } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ACTION_TYPES } from "../../_app";
+
 import "antd/dist/antd.css";
 import Image from "next/image";
 import Head from "next/head";
+import Link from "next/link";
+import style from "../../../../styles/repos.module.css";
 const repos = (props) => {
   // console.log("props", props);
   const routerProps = useRouter();
@@ -16,20 +18,39 @@ const repos = (props) => {
   const userName = routerProps.query.username;
 
   // 跳到這個route才設定inputUserName可能有點怪？
+  // **更 到Results.js 那邊設定
 
   const publicRepoLength = routerProps.query.public_repos;
 
-  // console.log("routerProps",routerProps)
+  console.log("routerProps", routerProps);
   const [userMeta, setUserMeta] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  // console.log(routerProps.query);
+  console.log(userMeta);
   const ContainerHeight = 400;
   const onScroll = (e) => {
     if (e.target.scrollHeight - e.target.scrollTop === ContainerHeight) {
       setPage((prev) => prev + 1);
       fetchRepos();
     }
+  };
+  const setSeletedRepoContext = (item) => {
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_REPO_NAME,
+      payload: { selectedRepoName: item.name },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_REPO_NODE_ID,
+      payload: { selectedRepoNodeId: item.node_id },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_REPO_DESCRIPTION,
+      payload: { selectedRepoDescription: item.description },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_REPO_STAR_COUNTS,
+      payload: { selectedRepoStarCounts: item.stargazers_count },
+    });
   };
   const fetchRepos = async () => {
     if (loading) {
@@ -39,7 +60,7 @@ const repos = (props) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `../../api/getUserRepos?username=${userName}&page=${page}`
+        `../../api/getUserRepos?username=${indexPageState.inputUserName}&page=${page}`
       );
       const result = await response.json();
       setUserMeta(userMeta.concat(result.data));
@@ -53,10 +74,10 @@ const repos = (props) => {
   };
 
   useEffect(() => {
-    dispatch({
-      type: ACTION_TYPES.SET_INPUT_USER_NAME,
-      payload: { inputUserName: userName },
-    });
+    // dispatch({
+    //   type: ACTION_TYPES.SET_INPUT_USER_NAME,
+    //   payload: { inputUserName: userName },
+    // });
     fetchRepos();
   }, []);
   return (
@@ -92,7 +113,7 @@ const repos = (props) => {
           ></Image>
         </div>
         <h2>{indexPageState.userRealName}</h2>
-        <p>{routerProps.query.username}</p>
+        <p>{indexPageState.inputUserName}</p>
       </div>
       {/* <div>
         {typeof userMeta !== "undefined" &&
@@ -145,14 +166,22 @@ const repos = (props) => {
                     : "This guy is so LAZY！！！ Not Even a repo",
               }}
               renderItem={(item) => (
-                <List.Item key={item.id}>
-                  <List.Item.Meta
-                    // avatar={<Avatar src={item.picture.large} />}
-                    title={item.name}
-                    // description={`🌟${item.stargazers_count}`}
-                  />
-                  <div>{`🌟${item.stargazers_count}`}</div>
-                </List.Item>
+                <Link
+                  href={`/users/${userName}/repos/${item.name}@${item.node_id}`}
+                >
+                  <List.Item
+                    key={item.id}
+                    onClick={() => setSeletedRepoContext(item)}
+                    className={style.listItem}
+                  >
+                    <List.Item.Meta
+                      // avatar={<Avatar src={item.picture.large} />}
+                      title={item.name}
+                      // description={`🌟${item.stargazers_count}`}
+                    />
+                    <div>{`🌟${item.stargazers_count}`}</div>
+                  </List.Item>
+                </Link>
               )}
             />
           </InfiniteScroll>

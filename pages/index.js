@@ -118,7 +118,11 @@ export default function Home() {
           ) : (
             "no data"
           )} */}
-          <Result href={`users/${userName}/repos`} meta={returnObj}></Result>
+          <Result
+            href={`users/${userName}/repos`}
+            input={userName}
+            meta={returnObj}
+          ></Result>
         </div>
       </main>
 
