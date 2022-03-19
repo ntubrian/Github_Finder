@@ -122,14 +122,15 @@ const repos = (props) => {
         >
           <Image
             src={indexPageState.userAvatarUrl[0]}
-            width={260}
-            height={160}
+            width={296}
+            height={296}
             layout="fixed"
             objectFit="cover"
           ></Image>
         </div>
         <h2>{indexPageState.userRealName}</h2>
         <p>{indexPageState.inputUserName}</p>
+        <p>👥{`${indexPageState.selectedUserFollowers} followers`}</p>
       </div>
       {/* <div>
         {typeof userMeta !== "undefined" &&
@@ -183,7 +184,7 @@ const repos = (props) => {
                 emptyText:
                   publicRepoLength > 0
                     ? "Loading"
-                    : "This guy is so LAZY!!! Not Even a repo",
+                    : "This guy doesn't leave any public repos",
               }}
               renderItem={(item) => (
                 <Link

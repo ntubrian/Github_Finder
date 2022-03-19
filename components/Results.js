@@ -3,11 +3,13 @@ import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
 import { ACTION_TYPES, UserContext } from "../pages/_app";
 import { Card } from "antd";
+import style from "../styles/Home.module.css";
 const Result = (props) => {
   const { userName, meta } = props;
   const [new_href, setNewHref] = useState("");
   const { indexPageState, dispatch } = useContext(UserContext);
   const { Meta } = Card;
+  const [scrrenWidth, setScreenWidth] = useState(0);
   const examineUndefined = () => {
     if (typeof meta !== "undefined" && typeof meta.data !== "undefined") {
       // dispatch({
@@ -34,6 +36,10 @@ const Result = (props) => {
         type: ACTION_TYPES.SET_USER_AVATAR_URL,
         payload: { userAvatarUrl: [meta.data.avatar_url] },
       });
+      dispatch({
+        type: ACTION_TYPES.SET_SELECTED_USER_FOLLOWERS,
+        payload: { selectedUserFollowers: meta.data.followers },
+      });
 
       setNewHref(
         `users/${meta.data.login}/repos` +
@@ -42,11 +48,16 @@ const Result = (props) => {
     }
   }, [userName, meta]);
 
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, [scrrenWidth]);
+
   return (
     <Link href={examineUndefined() ? new_href : ""}>
       {/* <Image src={props.imgUrl} width={260} height={160}></Image> */}
       {examineUndefined() ? (
         <Card
+          size={scrrenWidth < 600 ? "small" : "default"}
           hoverable
           style={{ width: 240 }}
           cover={<img alt="example" src={indexPageState.userAvatarUrl[0]} />}
@@ -57,7 +68,10 @@ const Result = (props) => {
           />
         </Card>
       ) : (
-        <p>no data</p>
+        <>
+          <Image src="/img/no_data.png" width={260} height={260}></Image>
+          <div className={style.noData}>No data！</div>
+        </>
       )}
     </Link>
   );

@@ -37,6 +37,7 @@
 }
 .scroll {
   min-width: 300px;
+  padding: 0px 3px;
 }
 
 @media screen and (min-width: 600px) {

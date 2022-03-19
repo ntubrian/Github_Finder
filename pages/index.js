@@ -5,9 +5,14 @@ import { useState, useEffect, useContext } from "react";
 import { getOneUserMeta } from "../lib/getOneUserMeta";
 import Result from "../components/Results";
 import { ACTION_TYPES, UserContext } from "../pages/_app";
+import { Input } from "antd";
+import { Spin } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+
 export default function Home() {
   const [userName, setUserName] = useState("");
   const [returnObj, setReturnObj] = useState("");
+  const [loading, setLoading] = useState(false);
   const { indexPageState, dispatch } = useContext(UserContext);
   // const [trys, setTry] = useState("");
   const handleNameInput = (e) => {
@@ -43,13 +48,17 @@ export default function Home() {
       if (userName === "") {
         setReturnObj("");
       } else {
+        if (loading) {
+          return;
+        }
+        setLoading(true);
         const returnPicAndName = await getOneUserMeta(userName);
         console.log(returnPicAndName);
         setReturnObj(returnPicAndName);
+        setLoading(false);
       }
     };
     if (examineUndefined(returnObj)) {
-      
     }
 
     fetchPicAndName();
@@ -103,9 +112,15 @@ export default function Home() {
           </a>
         </div> */}
         <div>
-          <input
+          {/* <input
             type="text"
             placeholder="name"
+            value={userName}
+            onChange={handleNameInput}
+          /> */}
+          <Input
+            placeholder="large size"
+            prefix={<UserOutlined />}
             value={userName}
             onChange={handleNameInput}
           />
@@ -128,11 +143,21 @@ export default function Home() {
           ) : (
             "no data"
           )} */}
-          <Result
-            href={`users/${userName}/repos`}
-            input={userName}
-            meta={returnObj}
-          ></Result>
+          <div
+            className={`${styles.resultCardContainer} ${
+              loading && styles.spinContainer
+            }`}
+          >
+            {loading ? (
+              <Spin size="large" />
+            ) : (
+              <Result
+                href={`users/${userName}/repos`}
+                input={userName}
+                meta={returnObj}
+              ></Result>
+            )}
+          </div>
         </div>
       </main>
 
