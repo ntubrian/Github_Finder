@@ -57,7 +57,7 @@ const Result = (props) => {
       {/* <Image src={props.imgUrl} width={260} height={160}></Image> */}
       {examineUndefined() ? (
         <Card
-          size={scrrenWidth < 600 ? "small" : "default"}
+          // size={scrrenWidth < 600 ? "small" : "default"}
           hoverable
           style={{ width: 240 }}
           cover={<img alt="example" src={indexPageState.userAvatarUrl[0]} />}

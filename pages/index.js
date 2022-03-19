@@ -111,7 +111,7 @@ export default function Home() {
             </p>
           </a>
         </div> */}
-        <div>
+        <div className={styles.transForm}>
           {/* <input
             type="text"
             placeholder="name"
