@@ -1,6 +1,10 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import "../styles/globals.css";
 import "../styles/variables.less";
+import { Router } from "next/router";
+import nProgress from "nprogress";
+import "/styles/nprogress.css";
+
 export const UserContext = createContext();
 export const ACTION_TYPES = {
   SET_INPUT_USER_NAME: "SET_INPUT_USER_NAME",
@@ -74,9 +78,35 @@ const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
+Router.events.on("routeChangeStart", nProgress.start);
+Router.events.on("routeChangeError", nProgress.done);
+Router.events.on("routeChangeComplete", nProgress.done);
 function MyApp({ Component, pageProps }) {
+  // const setIsAnimating = useProgressStore((state) => state.setIsAnimating);
+  // const isAnimating = useProgressStore((state) => state.isAnimating);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   const handleStart = () => {
+  //     setIsAnimating(true);
+  //   };
+  //   const handleStop = () => {
+  //     setIsAnimating(false);
+  //   };
+
+  //   router.events.on("routeChangeStart", handleStart);
+  //   router.events.on("routeChangeComplete", handleStop);
+  //   router.events.on("routeChangeError", handleStop);
+
+  //   return () => {
+  //     router.events.off("routeChangeStart", handleStart);
+  //     router.events.off("routeChangeComplete", handleStop);
+  //     router.events.off("routeChangeError", handleStop);
+  //   };
+  // }, [router]);
   return (
     <UserProvider>
+      {/* <Progress isAnimating={isAnimating} /> */}
       <Component {...pageProps} />
     </UserProvider>
   );

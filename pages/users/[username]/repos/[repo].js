@@ -2,10 +2,35 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext, ACTION_TYPES } from "../../../_app";
 import style from "../../../../styles/repo.module.css";
 import { Button } from "antd";
-
+import { useRouter } from "next/router";
 const repo = () => {
   const { indexPageState, dispatch } = useContext(UserContext);
-  console.log(indexPageState.selectedRepoDescription);
+  const { router } = useRouter();
+  const restoreBackUp = () => {
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_REPO_NAME,
+      payload: { selectedRepoName: sessionStorage.getItem("selectedRepoName") },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_REPO_DESCRIPTION,
+      payload: {
+        selectedRepoDescription: sessionStorage.getItem(
+          "selectedRepoDescription"
+        ),
+      },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_REPO_STAR_COUNTS,
+      payload: {
+        selectedRepoStarCounts: sessionStorage.getItem(
+          "selectedRepoStarCounts"
+        ),
+      },
+    });
+  };
+  useEffect(() => {
+    restoreBackUp();
+  }, [router]);
   return (
     <div>
       {/* <p>{indexPageState.selectedRepoName}</p> */}
