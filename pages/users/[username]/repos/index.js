@@ -40,6 +40,9 @@ const repos = (props) => {
     }
   };
   const setSeletedRepoContext = (item) => {
+    sessionStorage.setItem("selectedRepoName", item.name);
+    sessionStorage.setItem("selectedRepoDescription", item.description);
+    sessionStorage.setItem("selectedRepoStarCounts", item.stargazers_count);
     dispatch({
       type: ACTION_TYPES.SET_SELECTED_REPO_NAME,
       payload: { selectedRepoName: item.name },
@@ -124,6 +127,20 @@ const repos = (props) => {
     dispatch({
       type: ACTION_TYPES.SET_INPUT_USER_NAME,
       payload: { inputUserName: sessionStorage.getItem("inputUserName") },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_USER_REAL_NAME,
+      payload: { userRealName: sessionStorage.getItem("userRealName") },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_USER_AVATAR_URL,
+      payload: { userAvatarUrl: [sessionStorage.getItem("userAvatarUrl")] },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_USER_FOLLOWERS,
+      payload: {
+        selectedUserFollowers: sessionStorage.getItem("selectedUserFollowers"),
+      },
     });
     console.log("USERNAME CHANGE", sessionStorage.getItem("inputUserName"));
     // console.log(routerProps.query.username);

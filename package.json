@@ -10,12 +10,15 @@
   "dependencies": {
     "@octokit/core": "^3.5.1",
     "@octokit/request": "^5.6.3",
+    "@tanem/react-nprogress": "^4.0.10",
     "antd": "^4.19.2",
     "next": "12.1.0",
     "next-plugin-antd-less": "^1.8.0",
+    "nprogress": "^0.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-infinite-scroll-component": "^6.1.0"
+    "react-infinite-scroll-component": "^6.1.0",
+    "zustand": "^3.7.1"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.13.3"

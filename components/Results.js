@@ -25,6 +25,9 @@ const Result = (props) => {
     if (examineUndefined()) {
       console.log("###Meta", meta.data.login);
       sessionStorage.setItem("inputUserName", meta.data.login);
+      sessionStorage.setItem("userRealName", meta.data.name);
+      sessionStorage.setItem("userAvatarUrl", meta.data.avatar_url);
+      sessionStorage.setItem("selectedUserFollowers", meta.data.followers);
       dispatch({
         type: ACTION_TYPES.SET_INPUT_USER_NAME,
         payload: { inputUserName: meta.data.login },
