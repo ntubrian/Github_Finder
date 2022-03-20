@@ -1,14 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useState, useEffect } from "react";
-// import { Octokit } from "@octokit/core";
+import { useState, useEffect, useContext } from "react";
 import { getOneUserMeta } from "../lib/getOneUserMeta";
 import Result from "../components/Results";
+import { ACTION_TYPES, UserContext } from "../pages/_app";
+import { Input } from "antd";
+import { Spin } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+
 export default function Home() {
   const [userName, setUserName] = useState("");
   const [returnObj, setReturnObj] = useState("");
-  const [userReposRoute, setUserReposRoute] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { indexPageState, dispatch } = useContext(UserContext);
   // const [trys, setTry] = useState("");
   const handleNameInput = (e) => {
     setUserName(e.target.value);
@@ -30,17 +35,31 @@ export default function Home() {
   //   trytry();
   // }, [userName]);
 
+  const examineUndefined = (meta) => {
+    if (typeof meta !== "undefined" && typeof meta.data !== "undefined") {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     console.log(returnObj);
     const fetchPicAndName = async () => {
       if (userName === "") {
         setReturnObj("");
       } else {
+        if (loading) {
+          return;
+        }
+        setLoading(true);
         const returnPicAndName = await getOneUserMeta(userName);
         console.log(returnPicAndName);
         setReturnObj(returnPicAndName);
+        setLoading(false);
       }
     };
+    if (examineUndefined(returnObj)) {
+    }
 
     fetchPicAndName();
   }, [userName]);
@@ -92,10 +111,16 @@ export default function Home() {
             </p>
           </a>
         </div> */}
-        <div>
-          <input
+        <div className={styles.transForm}>
+          {/* <input
             type="text"
             placeholder="name"
+            value={userName}
+            onChange={handleNameInput}
+          /> */}
+          <Input
+            placeholder="large size"
+            prefix={<UserOutlined />}
             value={userName}
             onChange={handleNameInput}
           />
@@ -118,11 +143,21 @@ export default function Home() {
           ) : (
             "no data"
           )} */}
-          <Result
-            href={`users/${userName}/repos`}
-            input={userName}
-            meta={returnObj}
-          ></Result>
+          <div
+            className={`${styles.resultCardContainer} ${
+              loading && styles.spinContainer
+            }`}
+          >
+            {loading ? (
+              <Spin size="large" />
+            ) : (
+              <Result
+                href={`users/${userName}/repos`}
+                input={userName}
+                meta={returnObj}
+              ></Result>
+            )}
+          </div>
         </div>
       </main>
 

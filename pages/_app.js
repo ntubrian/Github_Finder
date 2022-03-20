@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
 import "../styles/globals.css";
-
+import "../styles/variables.less";
 export const UserContext = createContext();
 export const ACTION_TYPES = {
   SET_INPUT_USER_NAME: "SET_INPUT_USER_NAME",
@@ -10,6 +10,7 @@ export const ACTION_TYPES = {
   SET_SELECTED_REPO_NODE_ID: "SET_SELECTED_REPO_NODE_ID",
   SET_SELECTED_REPO_DESCRIPTION: "SET_SELECTED_REPO_DESCRIPTION",
   SET_SELECTED_REPO_STAR_COUNTS: "SET_SELECTED_REPO_STAR_COUNTS",
+  SET_SELECTED_USER_FOLLOWERS: "SET_SELECTED_USER_FOLLOWERS",
 };
 
 const userMetaReducer = (state, action) => {
@@ -44,6 +45,12 @@ const userMetaReducer = (state, action) => {
         selectedRepoStarCounts: action.payload.selectedRepoStarCounts,
       };
     }
+    case ACTION_TYPES.SET_SELECTED_USER_FOLLOWERS: {
+      return {
+        ...state,
+        selectedUserFollowers: action.payload.selectedUserFollowers,
+      };
+    }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -57,6 +64,7 @@ const UserProvider = ({ children }) => {
     selectedRepoNodeId: "",
     selectedRepoDescription: "",
     selectedRepoStarCounts: 0,
+    selectedUserFollowers: 0,
   };
 
   const [indexPageState, dispatch] = useReducer(userMetaReducer, initialState);
