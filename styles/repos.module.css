@@ -40,6 +40,10 @@
   padding: 0px 3px;
 }
 
+.circleAvatar {
+  border-radius: 50%;
+}
+
 @media screen and (min-width: 600px) {
   .listItem:hover {
     cursor: pointer;

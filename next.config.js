@@ -9,6 +9,6 @@ module.exports = withAntdLess({
   },
 
   images: {
-    domains: ["avatars.githubusercontent.com"],
+    domains: ["avatars.githubusercontent.com", "www.google.com", "c.tenor.com"],
   },
 });

@@ -24,6 +24,7 @@ const Result = (props) => {
   useEffect(() => {
     if (examineUndefined()) {
       console.log("###Meta", meta.data.login);
+      sessionStorage.setItem("inputUserName", meta.data.login);
       dispatch({
         type: ACTION_TYPES.SET_INPUT_USER_NAME,
         payload: { inputUserName: meta.data.login },
@@ -70,7 +71,7 @@ const Result = (props) => {
       ) : (
         <>
           <Image src="/img/no_data.png" width={260} height={260}></Image>
-          <div className={style.noData}>No data！</div>
+          <h1 className={style.noData}>No data！</h1>
         </>
       )}
     </Link>

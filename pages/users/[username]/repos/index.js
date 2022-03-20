@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext, ACTION_TYPES } from "../../../_app";
 import { List, message, Avatar, Skeleton, Divider, Empty } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import pageAccessedByReload from "../../../../lib/pageAccessedByReload";
 import "antd/dist/antd.css";
 import Image from "next/image";
 import Head from "next/head";
@@ -16,12 +16,16 @@ const repos = (props) => {
   // console.log("routerProps", routerProps);
   const { indexPageState, dispatch } = useContext(UserContext);
   console.log("###indexPageState###", indexPageState);
-  const userName = routerProps.query.username;
-
+  // const userName = routerProps.query.username;
+  // console.log(userName);
   // 跳到這個route才設定inputUserName可能有點怪？
   // **更 到Results.js 那邊設定
 
-  const publicRepoLength = routerProps.query.public_repos;
+  // const publicRepoLength = routerProps.query.public_repos;
+  const [userName, setUserName] = useState(routerProps.query.username);
+  const [publicRepoLength, setPublicRepoLength] = useState(
+    routerProps.query.public_repos
+  );
 
   console.log("routerProps", routerProps);
   const [userMeta, setUserMeta] = useState([]);
@@ -52,6 +56,10 @@ const repos = (props) => {
       type: ACTION_TYPES.SET_SELECTED_REPO_STAR_COUNTS,
       payload: { selectedRepoStarCounts: item.stargazers_count },
     });
+    // dispatch({
+    //   type: ACTION_TYPES.SET_USER_AVATAR_URL,
+    //   payload: { userAvatarUrl: [meta.data.avatar_url] },
+    // });
   };
   const fetchRepos = async () => {
     if (loading) {
@@ -60,11 +68,14 @@ const repos = (props) => {
     setPage((prev) => prev + 1);
     setLoading(true);
     try {
+      // console.log(indexPageState.inputUserName);
       const response = await fetch(
-        `../../api/getUserRepos?username=${indexPageState.inputUserName}&page=${page}`
+        `../../api/getUserRepos?username=${sessionStorage.getItem(
+          "inputUserName"
+        )}&page=${page}`
       );
       const result = await response.json();
-      // console.log("RRR", result);
+      console.log("RRR", result);
       const arr = [];
       // console.log("DATSTTSTS", result.data);
       // console.log("tyoeof@@@@", typeof result);
@@ -90,13 +101,40 @@ const repos = (props) => {
     console.log(userMeta);
   };
 
+  // useEffect(() => {
+  //   // dispatch({
+  //   //   type: ACTION_TYPES.SET_INPUT_USER_NAME,
+  //   //   payload: { inputUserName: userName },
+  //   // });
+  //   // console.log("I'm hot reload", indexPageState.inputUserName);
+  //   // if (pageAccessedByReload()) {
+  //   //   dispatch({
+  //   //     type: ACTION_TYPES.SET_INPUT_USER_NAME,
+  //   //     payload: { inputUserName: sessionStorage.getItem("inputUserName") },
+  //   //   });
+  //   //   alert(`InputUserName${indexPageState.inputUserName}`);
+  //   // }
+  //   // console.log(sessionStorage.getItem("inputUserName"));
+  //   // console.log(indexPageState.inputUserName, "GOGOGOGOGOG");
+  //   // console.log(indexPageState.inputUserName);
+  //   fetchRepos();
+  // }, []);
+
   useEffect(() => {
-    // dispatch({
-    //   type: ACTION_TYPES.SET_INPUT_USER_NAME,
-    //   payload: { inputUserName: userName },
-    // });
+    dispatch({
+      type: ACTION_TYPES.SET_INPUT_USER_NAME,
+      payload: { inputUserName: sessionStorage.getItem("inputUserName") },
+    });
+    console.log("USERNAME CHANGE", sessionStorage.getItem("inputUserName"));
+    // console.log(routerProps.query.username);
     fetchRepos();
-  }, []);
+
+    setUserName(routerProps.query.username);
+    setPublicRepoLength(routerProps.query.public_repos);
+
+    console.log(userName);
+    // console.log("FETCH NEW REPO");
+  }, [userName, routerProps]);
   return (
     <div className={style.outerContainer}>
       <Head>
@@ -121,11 +159,16 @@ const repos = (props) => {
           }
         >
           <Image
-            src={indexPageState.userAvatarUrl[0]}
+            src={
+              indexPageState.userAvatarUrl.length > 0
+                ? indexPageState.userAvatarUrl[0]
+                : "https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif"
+            }
             width={296}
             height={296}
             layout="fixed"
             objectFit="cover"
+            className={style.circleAvatar}
           ></Image>
         </div>
         <h2>{indexPageState.userRealName}</h2>
