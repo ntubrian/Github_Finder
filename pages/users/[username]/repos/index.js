@@ -24,7 +24,7 @@ const repos = (props) => {
   // };
   useEffect(() => {
     // window.addEventListener("resize", resize);
-    useState(window.innerWidth > 600);
+    setBigScreen(window.innerWidth > 600);
   }, []);
 
   // const isMobile = useMediaQuery({ query: `(min-width: 700px)` });
