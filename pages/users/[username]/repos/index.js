@@ -12,19 +12,21 @@ import style from "../../../../styles/repos.module.css";
 import Home from "../../../../components/Home";
 import { useMediaQuery } from "react-responsive";
 const repos = (props) => {
-  const [isBigScreen, setBigScreen] = useState(true);
+  const [isBigScreen, setBigScreen] = useState(0);
 
+  // const resize = () => {
+  //   setBigScreen(window.innerWidth > 600)
+  //   if (window.innerWidth > 600) {
+  //     setBigScreen(true);
+  //   } else {
+  //     setBigScreen(false);
+  //   }
+  // };
   useEffect(() => {
-    window.addEventListener("resize", resize);
+    // window.addEventListener("resize", resize);
+    useState(window.innerWidth > 600);
   }, []);
 
-  const resize = () => {
-    if (window.innerWidth > 600) {
-      setBigScreen(true);
-    } else {
-      setBigScreen(false);
-    }
-  };
   // const isMobile = useMediaQuery({ query: `(min-width: 700px)` });
   const [idArr, setId] = useState(Array(10).fill(0));
   // console.log("props", props);
