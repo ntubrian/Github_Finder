@@ -44,6 +44,25 @@
   border-radius: 50%;
 }
 
+@media screen and (max-width: 600px) {
+  .picContainer {
+    display: inline;
+    width: 100%;
+  }
+
+  .circleAvatar {
+    border-radius: 50%;
+  }
+}
+.navContainer {
+  display: flex;
+  z-index: 50;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  transform: scale(2);
+}
+
 @media screen and (min-width: 600px) {
   .listItem:hover {
     cursor: pointer;
@@ -80,6 +99,14 @@
   .starContext {
     color: white;
     padding-right: 10px;
+  }
+
+  .navContainer {
+    display: flex;
+    z-index: 50;
+    position: absolute;
+    top: 5vh;
+    left: 2vw;
   }
 
   /* #scrollableDiv {

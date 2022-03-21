@@ -3,9 +3,11 @@ import { UserContext, ACTION_TYPES } from "../../../_app";
 import style from "../../../../styles/repo.module.css";
 import { Button } from "antd";
 import { useRouter } from "next/router";
+import Back from "../../../../components/Back";
+import Home from "../../../../components/Home";
 const repo = () => {
   const { indexPageState, dispatch } = useContext(UserContext);
-  const { router } = useRouter();
+  const router = useRouter();
   const restoreBackUp = () => {
     dispatch({
       type: ACTION_TYPES.SET_SELECTED_REPO_NAME,
@@ -33,11 +35,16 @@ const repo = () => {
   }, [router]);
   return (
     <div>
+      <div className={style.navContainer}>
+        <Home></Home>
+        <Back backTo={router.back}></Back>
+      </div>
+
       {/* <p>{indexPageState.selectedRepoName}</p> */}
       <div className={style.repoContainer}>
         <p className={style.repoName}>{indexPageState.selectedRepoName}</p>
         <p className={style.repoDescription}>
-          {indexPageState.selectedRepoDescription === null
+          {indexPageState.selectedRepoDescription === "null"
             ? "This guy is lazy to leave a project description!!!"
             : indexPageState.selectedRepoDescription}
         </p>

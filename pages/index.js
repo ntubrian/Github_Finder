@@ -8,12 +8,14 @@ import { ACTION_TYPES, UserContext } from "../pages/_app";
 import { Input } from "antd";
 import { Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const [userName, setUserName] = useState("");
+  const [inputUserName, setUserName] = useState("");
   const [returnObj, setReturnObj] = useState("");
   const [loading, setLoading] = useState(false);
   const { indexPageState, dispatch } = useContext(UserContext);
+  const router = useRouter();
   // const [trys, setTry] = useState("");
   const handleNameInput = (e) => {
     setUserName(e.target.value);
@@ -45,14 +47,14 @@ export default function Home() {
   useEffect(() => {
     console.log(returnObj);
     const fetchPicAndName = async () => {
-      if (userName === "") {
+      if (inputUserName === "") {
         setReturnObj("");
       } else {
         if (loading) {
           return;
         }
         setLoading(true);
-        const returnPicAndName = await getOneUserMeta(userName);
+        const returnPicAndName = await getOneUserMeta(inputUserName);
         console.log(returnPicAndName);
         setReturnObj(returnPicAndName);
         setLoading(false);
@@ -62,7 +64,11 @@ export default function Home() {
     }
 
     fetchPicAndName();
-  }, [userName]);
+  }, [inputUserName]);
+
+  useEffect(() => {
+    setUserName(indexPageState.inputUserName);
+  }, [router]);
 
   return (
     <div className={styles.container}>
@@ -119,9 +125,9 @@ export default function Home() {
             onChange={handleNameInput}
           /> */}
           <Input
-            placeholder="large size"
+            placeholder="find a user"
             prefix={<UserOutlined />}
-            value={userName}
+            value={inputUserName}
             onChange={handleNameInput}
           />
 
@@ -152,8 +158,8 @@ export default function Home() {
               <Spin size="large" />
             ) : (
               <Result
-                href={`users/${userName}/repos`}
-                input={userName}
+                href={`users/${inputUserName}/repos`}
+                input={inputUserName}
                 meta={returnObj}
               ></Result>
             )}

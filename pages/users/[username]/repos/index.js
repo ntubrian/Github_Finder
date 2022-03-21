@@ -9,7 +9,23 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import style from "../../../../styles/repos.module.css";
+import Home from "../../../../components/Home";
+import { useMediaQuery } from "react-responsive";
 const repos = (props) => {
+  const [isBigScreen, setBigScreen] = useState(true);
+
+  useEffect(() => {
+    window.addEventListener("resize", resize);
+  }, []);
+
+  const resize = () => {
+    if (window.innerWidth > 600) {
+      setBigScreen(true);
+    } else {
+      setBigScreen(false);
+    }
+  };
+  // const isMobile = useMediaQuery({ query: `(min-width: 700px)` });
   const [idArr, setId] = useState(Array(10).fill(0));
   // console.log("props", props);
   const routerProps = useRouter();
@@ -151,6 +167,7 @@ const repos = (props) => {
 
     console.log(userName);
     // console.log("FETCH NEW REPO");
+    // console.log("我是", isMobile);
   }, [userName, routerProps]);
   return (
     <div className={style.outerContainer}>
@@ -158,6 +175,10 @@ const repos = (props) => {
         <title>{`${userName}'s github repos`}</title>
         <meta name="description" content={`${userName}'s github repos`}></meta>
       </Head>
+      <div className={style.navContainer}>
+        <Home></Home>
+        {/* <Back backTo={routerProps.back}></Back> */}
+      </div>
       <div
         className={style.profileContainer}
         // style={{
@@ -181,8 +202,8 @@ const repos = (props) => {
                 ? indexPageState.userAvatarUrl[0]
                 : "https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif"
             }
-            width={296}
-            height={296}
+            width={isBigScreen ? 276 : 200}
+            height={isBigScreen ? 276 : 200}
             layout="fixed"
             objectFit="cover"
             className={style.circleAvatar}
@@ -223,8 +244,8 @@ const repos = (props) => {
           id="scrollableDiv"
           className={style.scroll}
           style={{
-            height: 300,
-            width: "50vw",
+            height: 320,
+            width: "55vw",
             overflow: "auto",
             padding: "0 16px",
             border: "1px solid rgba(140, 140, 140, 0.35)",
