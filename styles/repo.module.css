@@ -1,15 +1,23 @@
 .repoContainer {
   text-align: center;
-  padding-top: 5vh;
+  padding-top: 60px;
 }
 
 .repoName {
   font-size: 30px;
   font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: auto;
+  max-width: 80%;
 }
 
 .repoDescription {
   font-size: 16px;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: scroll;
 }
 .starCount {
   display: flex;
@@ -26,10 +34,27 @@
   color: #77828c;
 }
 
+.navContainer {
+  display: flex;
+  z-index: 50;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  transform: scale(1.5);
+  width: 40px;
+  justify-content: space-evenly;
+}
+
+.home:hover {
+  box-shadow: 0 0 5px rgb(0 106 166);
+}
+.back:hover {
+  box-shadow: 0 0 5px rgb(0 106 166);
+}
 @media screen and (min-width: 600px) {
   .repoContainer {
     text-align: center;
-    padding-top: 5vh;
+    padding-top: 8vh;
   }
 
   .repoName {
@@ -53,5 +78,19 @@
   .starCountNum {
     font-size: 100px;
     color: #77828c;
+  }
+
+  .navContainer {
+    display: flex;
+    z-index: 50;
+    position: absolute;
+    top: 25px;
+    left: 30px;
+    width: 40px;
+    justify-content: space-evenly;
+    transform: scale(2);
+  }
+  .back:hover {
+    box-shadow: 0 0 10px rgb(0 106 166);
   }
 }
