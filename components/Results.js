@@ -56,13 +56,8 @@ const Result = (props) => {
     setScreenWidth(window.innerWidth);
   }, [scrrenWidth]);
 
-  // if (inputUserName === "") {
-  //   return <Image src="/img/search.png" width={260} height={260}></Image>;
-  // }
-
   return (
     <Link href={meta?.data?.login ? new_href : ""}>
-      {/* <Image src={props.imgUrl} width={260} height={160}></Image> */}
       {meta?.data?.login ? (
         <Card
           // size={scrrenWidth < 600 ? "small" : "default"}

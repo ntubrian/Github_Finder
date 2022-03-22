@@ -47,7 +47,8 @@ const repo = () => {
   };
   useEffect(() => {
     restoreBackUp();
-    fetchSingleRepo();
+    // fetchSingleRepo();
+    console.log(indexPageState.inputUserName);
   }, [router]);
   return (
     <div>
@@ -56,7 +57,6 @@ const repo = () => {
         <Back backTo={router.back}></Back>
       </div>
 
-      {/* <p>{indexPageState.selectedRepoName}</p> */}
       <div className={style.repoContainer}>
         <p className={style.repoName}>{indexPageState.selectedRepoName}</p>
         <p className={style.repoDescription}>
@@ -79,12 +79,6 @@ const repo = () => {
             +{indexPageState.selectedRepoStarCounts}
           </p>
         </div>
-        {/* <a
-          href={`https://github.com/${indexPageState.inputUserName}/${indexPageState.selectedRepoName}`}
-          target="_blank"
-        >
-          {indexPageState.selectedRepoName}
-        </a> */}
       </div>
     </div>
   );
