@@ -9,18 +9,24 @@ import { Input } from "antd";
 import { Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-
+import useDebounce from "../hooks/useDebounce";
+// import debounce from "lodash.debounce";
 export default function Home() {
-  const [inputUserName, setUserName] = useState("");
+  const { indexPageState, dispatch } = useContext(UserContext);
+  const [inputUserName, setUserName] = useState(() =>
+    indexPageState?.inputUserName ? indexPageState.inputUserName : ""
+  );
   const [returnObj, setReturnObj] = useState("");
   const [loading, setLoading] = useState(false);
-  const { indexPageState, dispatch } = useContext(UserContext);
+  const [debounceTime, setDebounceTime] = useState(0);
   const router = useRouter();
+  const debounce = useDebounce(inputUserName, debounceTime);
   // const [trys, setTry] = useState("");
   const handleNameInput = (e) => {
-    setUserName(e.target.value);
+    setUserName(e?.target?.value);
   };
 
+  // const debounceOnChange = debounce(handleNameInput, 200);
   // const octokit = new Octokit({
   //   auth: `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`,
   // });
@@ -36,7 +42,39 @@ export default function Home() {
   //   console.log(trys);
   //   trytry();
   // }, [userName]);
+  const fetchPicAndName = async () => {
+    if (inputUserName === "") {
+      setReturnObj("");
+    } else {
+      if (loading) {
+        return;
+      }
+      setLoading(true);
+      const returnPicAndName = await getOneUserMeta(inputUserName);
+      console.log(returnPicAndName);
+      setReturnObj(returnPicAndName);
+      setLoading(false);
+    }
+  };
 
+  // useDebounce(() => fetchPicAndName(), 600, [inputUserName]);
+  useEffect(() => {
+    if (debounce) {
+      fetchPicAndName();
+    }
+  }, [debounce, debounceTime]);
+  useEffect(() => {
+    if (inputUserName === "") {
+      setDebounceTime(0);
+      console.log(0);
+      setReturnObj("");
+      setUserName("");
+      console.log("HI");
+    } else {
+      console.log(700);
+      setDebounceTime(700);
+    }
+  }, [inputUserName]);
   const examineUndefined = (meta) => {
     if (typeof meta !== "undefined" && typeof meta.data !== "undefined") {
       return true;
@@ -44,30 +82,32 @@ export default function Home() {
     return false;
   };
 
-  useEffect(() => {
-    console.log(returnObj);
-    const fetchPicAndName = async () => {
-      if (inputUserName === "") {
-        setReturnObj("");
-      } else {
-        if (loading) {
-          return;
-        }
-        setLoading(true);
-        const returnPicAndName = await getOneUserMeta(inputUserName);
-        console.log(returnPicAndName);
-        setReturnObj(returnPicAndName);
-        setLoading(false);
-      }
-    };
-    if (examineUndefined(returnObj)) {
-    }
+  // useEffect(() => {
+  //   // console.log(returnObj);
+  //   // const fetchPicAndName = async () => {
+  //   //   if (inputUserName === "") {
+  //   //     setReturnObj("");
+  //   //   } else {
+  //   //     if (loading) {
+  //   //       return;
+  //   //     }
+  //   //     setLoading(true);
+  //   //     const returnPicAndName = await getOneUserMeta(inputUserName);
+  //   //     console.log(returnPicAndName);
+  //   //     setReturnObj(returnPicAndName);
+  //   //     setLoading(false);
+  //   //   }
+  //   // };
+  //   // if (examineUndefined(returnObj)) {
+  //   // }
 
-    fetchPicAndName();
-  }, [inputUserName]);
+  //   fetchPicAndName();
+  // }, [inputUserName]);
 
   useEffect(() => {
-    setUserName(indexPageState.inputUserName);
+    // setUserName(indexPageState.inputUserName);
+    // console.log("hi");
+    console.log(indexPageState.inputUserName);
   }, [router]);
 
   return (
@@ -129,6 +169,7 @@ export default function Home() {
             prefix={<UserOutlined />}
             value={inputUserName}
             onChange={handleNameInput}
+            size="large"
           />
 
           {/* {typeof returnObj !== "undefined" &&
@@ -154,13 +195,18 @@ export default function Home() {
               loading && styles.spinContainer
             }`}
           >
-            {loading ? (
+            {inputUserName === "" ? (
+              <div className={styles.searchPic}>
+                <Image src="/img/search.png" width={230} height={230}></Image>
+              </div>
+            ) : loading ? (
               <Spin size="large" />
             ) : (
               <Result
                 href={`users/${inputUserName}/repos`}
-                input={inputUserName}
+                inputUserName={inputUserName}
                 meta={returnObj}
+                debounce={debounce}
               ></Result>
             )}
           </div>

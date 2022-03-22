@@ -33,7 +33,6 @@ const repos = (props) => {
   const routerProps = useRouter();
   // console.log("routerProps", routerProps);
   const { indexPageState, dispatch } = useContext(UserContext);
-  console.log("###indexPageState###", indexPageState);
   // const userName = routerProps.query.username;
   // console.log(userName);
   // 跳到這個route才設定inputUserName可能有點怪？
@@ -45,7 +44,6 @@ const repos = (props) => {
     routerProps.query.public_repos
   );
 
-  console.log("routerProps", routerProps);
   const [userMeta, setUserMeta] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -96,7 +94,7 @@ const repos = (props) => {
         )}&page=${page}`
       );
       const result = await response.json();
-      console.log("RRR", result);
+
       const arr = [];
       // console.log("DATSTTSTS", result.data);
       // console.log("tyoeof@@@@", typeof result);
@@ -110,7 +108,6 @@ const repos = (props) => {
       });
       // console.log("AAA", arr);
       setId(idArr.concat(arr));
-      console.log(idArr);
       setUserMeta(userMeta.concat(result.data));
       setLoading(false);
       console.log(result);
@@ -160,16 +157,12 @@ const repos = (props) => {
         selectedUserFollowers: sessionStorage.getItem("selectedUserFollowers"),
       },
     });
-    console.log("USERNAME CHANGE", sessionStorage.getItem("inputUserName"));
+
     // console.log(routerProps.query.username);
     fetchRepos();
 
     setUserName(routerProps.query.username);
     setPublicRepoLength(routerProps.query.public_repos);
-
-    console.log(userName);
-    // console.log("FETCH NEW REPO");
-    // console.log("我是", isMobile);
   }, [userName, routerProps]);
   return (
     <div className={style.outerContainer}>

@@ -141,6 +141,10 @@
   text-align: center;
 }
 
+.searchPic {
+  padding-top: 10px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
@@ -165,6 +169,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .searchPic {
+    padding-top: 10px;
   }
   /* .cardHeight {
     height: 30vh;

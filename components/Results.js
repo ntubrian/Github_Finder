@@ -5,7 +5,7 @@ import { ACTION_TYPES, UserContext } from "../pages/_app";
 import { Card } from "antd";
 import style from "../styles/Home.module.css";
 const Result = (props) => {
-  const { userName, meta } = props;
+  const { inputUserName, meta, debounce } = props;
   const [new_href, setNewHref] = useState("");
   const { indexPageState, dispatch } = useContext(UserContext);
   const { Meta } = Card;
@@ -16,14 +16,14 @@ const Result = (props) => {
       //   type: ACTION_TYPES.SET_USER_AVATAR_URL,
       //   payload: { userAvatarUrl: [meta.data.avatar_url] },
       // });
+      console.log("I'm Meta", meta);
       return true;
     }
     return false;
   };
 
   useEffect(() => {
-    if (examineUndefined()) {
-      console.log("###Meta", meta.data.login);
+    if (meta?.data?.login) {
       sessionStorage.setItem("inputUserName", meta.data.login);
       sessionStorage.setItem("userRealName", meta.data.name);
       sessionStorage.setItem("userAvatarUrl", meta.data.avatar_url);
@@ -50,25 +50,29 @@ const Result = (props) => {
           `?public_repos=${meta.data.public_repos}`
       );
     }
-  }, [userName, meta]);
+  }, [debounce]);
 
   useEffect(() => {
     setScreenWidth(window.innerWidth);
   }, [scrrenWidth]);
 
+  // if (inputUserName === "") {
+  //   return <Image src="/img/search.png" width={260} height={260}></Image>;
+  // }
+
   return (
-    <Link href={examineUndefined() ? new_href : ""}>
+    <Link href={meta?.data?.login ? new_href : ""}>
       {/* <Image src={props.imgUrl} width={260} height={160}></Image> */}
-      {examineUndefined() ? (
+      {meta?.data?.login ? (
         <Card
           // size={scrrenWidth < 600 ? "small" : "default"}
           hoverable
           style={{ width: 240 }}
-          cover={<img alt="example" src={indexPageState.userAvatarUrl[0]} />}
+          cover={<img alt="example" src={meta?.data?.avatar_url} />}
         >
           <Meta
-            title={indexPageState.userRealName}
-            description={indexPageState.inputUserName}
+            title={meta?.data?.name == "null" ? "" : meta?.data?.name}
+            description={meta?.data?.login}
           />
         </Card>
       ) : (
