@@ -156,11 +156,11 @@
     min-height: 400px;
   }
   .main {
-    padding: 1rem 0;
+    padding-bottom: 100px;
   }
 
   .transForm {
-    transform: scale(0.75);
+    transform: scale(0.9);
   }
 
   .footer {
