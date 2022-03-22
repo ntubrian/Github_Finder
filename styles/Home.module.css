@@ -141,6 +141,10 @@
   text-align: center;
 }
 
+.searchPic {
+  padding-top: 10px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
@@ -152,11 +156,11 @@
     min-height: 400px;
   }
   .main {
-    padding: 1rem 0;
+    padding-bottom: 150px;
   }
 
   .transForm {
-    transform: scale(0.75);
+    transform: scale(0.8);
   }
 
   .footer {
@@ -165,6 +169,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .searchPic {
+    padding-top: 10px;
+  }
+  .inputBox {
+    width: 240px;
   }
   /* .cardHeight {
     height: 30vh;
