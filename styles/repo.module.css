@@ -17,7 +17,7 @@
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .starCount {
   display: flex;
@@ -39,8 +39,8 @@
   z-index: 50;
   position: absolute;
   top: 30px;
-  left: 20px;
-  transform: scale(1.5);
+  left: 25px;
+  transform: scale(2);
   width: 40px;
   justify-content: space-evenly;
 }
@@ -84,11 +84,11 @@
     display: flex;
     z-index: 50;
     position: absolute;
-    top: 25px;
-    left: 30px;
+    top: 40px;
+    left: 54px;
     width: 40px;
     justify-content: space-evenly;
-    transform: scale(2);
+    transform: scale(3);
   }
   .back:hover {
     box-shadow: 0 0 10px rgb(0 106 166);
