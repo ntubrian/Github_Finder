@@ -90,7 +90,6 @@ const repos = (props) => {
     setPage((prev) => prev + 1);
     setLoading(true);
     try {
-      // console.log(indexPageState.inputUserName);
       const response = await fetch(
         `../../api/getUserRepos?username=${sessionStorage.getItem(
           "inputUserName"
@@ -99,47 +98,22 @@ const repos = (props) => {
       const result = await response.json();
 
       const arr = [];
-      // console.log("DATSTTSTS", result.data);
-      // console.log("tyoeof@@@@", typeof result);
-      // for (let i = 0; i < result.length; i++) {
-      //   // arr.push(result[i].id);
-      //   console.log("@");
-      //   console.log("########", result.data[i].id);
-      // }
+
       result.data.forEach((element) => {
         arr.push(element.id);
       });
-      // console.log("AAA", arr);
+
       setId(idArr.concat(arr));
       setUserMeta(userMeta.concat(result.data));
       setLoading(false);
       console.log(result);
     } catch (error) {
       console.log(error);
-      // console.error("api response error");
+
       setLoading(false);
     }
     console.log(userMeta);
   };
-
-  // useEffect(() => {
-  //   // dispatch({
-  //   //   type: ACTION_TYPES.SET_INPUT_USER_NAME,
-  //   //   payload: { inputUserName: userName },
-  //   // });
-  //   // console.log("I'm hot reload", indexPageState.inputUserName);
-  //   // if (pageAccessedByReload()) {
-  //   //   dispatch({
-  //   //     type: ACTION_TYPES.SET_INPUT_USER_NAME,
-  //   //     payload: { inputUserName: sessionStorage.getItem("inputUserName") },
-  //   //   });
-  //   //   alert(`InputUserName${indexPageState.inputUserName}`);
-  //   // }
-  //   // console.log(sessionStorage.getItem("inputUserName"));
-  //   // console.log(indexPageState.inputUserName, "GOGOGOGOGOG");
-  //   // console.log(indexPageState.inputUserName);
-  //   fetchRepos();
-  // }, []);
 
   useEffect(() => {
     dispatch({
@@ -161,7 +135,6 @@ const repos = (props) => {
       },
     });
 
-    // console.log(routerProps.query.username);
     fetchRepos();
 
     setUserName(routerProps.query.username);
@@ -175,25 +148,9 @@ const repos = (props) => {
       </Head>
       <div className={style.navContainer}>
         <Home></Home>
-        {/* <Back backTo={routerProps.back}></Back> */}
       </div>
-      <div
-        className={style.profileContainer}
-        // style={{
-        //   textAlign: "center",
-        //   paddingLeft: "5vw",
-        // }}
-      >
-        <div
-          className={style.picContainer}
-          style={
-            {
-              // borderRadius: "50%",
-              // overflow: "hidden",
-              // display: "inline",
-            }
-          }
-        >
+      <div className={style.profileContainer}>
+        <div className={style.picContainer}>
           <Image
             src={
               indexPageState.userAvatarUrl.length > 0
@@ -213,33 +170,8 @@ const repos = (props) => {
         <p>{indexPageState.inputUserName}</p>
         <p>👥{`${indexPageState.selectedUserFollowers} followers`}</p>
       </div>
-      {/* <div>
-        {typeof userMeta !== "undefined" &&
-        typeof userMeta.data !== "undefined" &&
-        typeof userMeta.data[0] !== "undefined" &&
-        typeof userMeta.data[0].id !== "undefined"
-          ? <p>{userMeta.data[0].id}</p> && (
-              <ol>
-                {userMeta.data.map((data) => {
-                  return (
-                    <li>
-                      <span>{data.name}</span>
-                      <span> ⭐{data.stargazers_count}</span>
-                    </li>
-                  );
-                })}
-              </ol>
-            )
-          : "no data"}
-      </div> */}
-      <div
-        className={style.reposContainer}
-        style={
-          {
-            // padding: "24px",
-          }
-        }
-      >
+
+      <div className={style.reposContainer}>
         <div
           id="scrollableDiv"
           className={style.scroll}
@@ -281,10 +213,7 @@ const repos = (props) => {
                     }`}
                   >
                     <List.Item.Meta
-                      // style={{ color: "white" }}
-                      // avatar={<Avatar src={item.picture.large} />}
                       title={<p className={style.title}>{item.name}</p>}
-                      // description={`🌟${item.stargazers_count}`}
                     />
                     <div
                       className={style.starContext}
@@ -296,9 +225,6 @@ const repos = (props) => {
           </InfiniteScroll>
         </div>
       </div>
-      {/* <div>
-        <p>{page}</p>
-      </div> */}
     </div>
   );
 };

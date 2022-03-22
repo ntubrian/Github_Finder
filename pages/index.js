@@ -10,7 +10,7 @@ import { Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import useDebounce from "../hooks/useDebounce";
-// import debounce from "lodash.debounce";
+
 export default function Home() {
   const { indexPageState, dispatch } = useContext(UserContext);
   const [inputUserName, setUserName] = useState(() =>
@@ -21,27 +21,10 @@ export default function Home() {
   const [debounceTime, setDebounceTime] = useState(0);
   const router = useRouter();
   const debounce = useDebounce(inputUserName, debounceTime);
-  // const [trys, setTry] = useState("");
   const handleNameInput = (e) => {
     setUserName(e?.target?.value);
   };
 
-  // const debounceOnChange = debounce(handleNameInput, 200);
-  // const octokit = new Octokit({
-  //   auth: `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`,
-  // });
-  // useEffect(() => {
-  //   const trytry = async () => {
-  //     try {
-  //       const res = await octokit.request("GET /users");
-  //       setTry(trys);
-  //     } catch (error) {
-  //       console.error("Some thing wrong");
-  //     }
-  //   };
-  //   console.log(trys);
-  //   trytry();
-  // }, [userName]);
   const fetchPicAndName = async () => {
     if (inputUserName === "") {
       setReturnObj("");
@@ -57,7 +40,6 @@ export default function Home() {
     }
   };
 
-  // useDebounce(() => fetchPicAndName(), 600, [inputUserName]);
   useEffect(() => {
     if (debounce) {
       fetchPicAndName();
@@ -82,30 +64,8 @@ export default function Home() {
     return false;
   };
 
-  // useEffect(() => {
-  //   // console.log(returnObj);
-  //   // const fetchPicAndName = async () => {
-  //   //   if (inputUserName === "") {
-  //   //     setReturnObj("");
-  //   //   } else {
-  //   //     if (loading) {
-  //   //       return;
-  //   //     }
-  //   //     setLoading(true);
-  //   //     const returnPicAndName = await getOneUserMeta(inputUserName);
-  //   //     console.log(returnPicAndName);
-  //   //     setReturnObj(returnPicAndName);
-  //   //     setLoading(false);
-  //   //   }
-  //   // };
-  //   // if (examineUndefined(returnObj)) {
-  //   // }
-
-  //   fetchPicAndName();
-  // }, [inputUserName]);
-
   useEffect(() => {
-    // setUserName(indexPageState.inputUserName);
+    setUserName(sessionStorage.getItem("inputUserName"));
     // console.log("hi");
     console.log(indexPageState.inputUserName);
   }, [router]);
@@ -119,51 +79,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        {/* <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div> */}
         <div className={styles.transForm}>
-          {/* <input
-            type="text"
-            placeholder="name"
-            value={userName}
-            onChange={handleNameInput}
-          /> */}
           <div className={styles.inputBox}>
             <Input
               placeholder="find a user"
@@ -174,24 +90,6 @@ export default function Home() {
             />
           </div>
 
-          {/* {typeof returnObj !== "undefined" &&
-          typeof returnObj.data !== "undefined" &&
-          typeof returnObj.data[0] !== "undefined" &&
-          typeof returnObj.data[0].id !== "undefined"
-            ? <span>returnObj.data[0].id</span> && (
-                <img src={`${returnObj.data[0].owner.avatar_url}`} />
-              )
-            : "no data"} */}
-
-          {/* {typeof returnObj !== "undefined" &&
-          typeof returnObj.data !== "undefined" ? (
-            <div>
-              <p>{returnObj.data.name}</p>
-              <img src={returnObj.data.avatar_url} />
-            </div>
-          ) : (
-            "no data"
-          )} */}
           <div
             className={`${styles.resultCardContainer} ${
               loading && styles.spinContainer
