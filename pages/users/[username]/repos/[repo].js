@@ -30,8 +30,21 @@ const repo = () => {
       },
     });
   };
+  const fetchSingleRepo = async () => {
+    try {
+      const response = await fetch(
+        `../../../api/getUserSingleRepo?owner=${indexPageState.inputUserName}&repo=${indexPageState.selectedRepoName}`
+      );
+      const result = await response.json();
+      console.log("NewAPI", result);
+    } catch (error) {
+      console.log(error);
+      console.error();
+    }
+  };
   useEffect(() => {
     restoreBackUp();
+    fetchSingleRepo();
   }, [router]);
   return (
     <div>

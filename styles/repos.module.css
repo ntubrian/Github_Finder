@@ -105,8 +105,9 @@
     display: flex;
     z-index: 50;
     position: absolute;
-    top: 5vh;
-    left: 2vw;
+    top: 40px;
+    left: 40px;
+    transform: scale(3);
   }
 
   /* #scrollableDiv {
