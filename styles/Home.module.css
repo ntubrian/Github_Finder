@@ -156,11 +156,11 @@
     min-height: 400px;
   }
   .main {
-    padding-bottom: 100px;
+    padding-bottom: 150px;
   }
 
   .transForm {
-    transform: scale(0.9);
+    transform: scale(0.8);
   }
 
   .footer {
@@ -175,7 +175,7 @@
     padding-top: 10px;
   }
   .inputBox {
-    max-width: 216px;
+    width: 240px;
   }
   /* .cardHeight {
     height: 30vh;
