@@ -204,7 +204,9 @@ const repos = (props) => {
             className={style.circleAvatar}
           ></Image>
         </div>
-        <h2>{indexPageState.userRealName}</h2>
+        {indexPageState.userRealName !== "null" && (
+          <h2>{indexPageState.userRealName}</h2>
+        )}
         <p>{indexPageState.inputUserName}</p>
         <p>👥{`${indexPageState.selectedUserFollowers} followers`}</p>
       </div>
