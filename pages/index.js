@@ -4,7 +4,7 @@ import styles from "../styles/Home.module.css";
 import { useState, useEffect, useContext } from "react";
 import { getOneUserMeta } from "../lib/getOneUserMeta";
 import Result from "../components/Results";
-import { ACTION_TYPES, UserContext } from "../pages/_app";
+import { ACTION_TYPES, UserContext } from "../context/github-user-context";
 import { Input } from "antd";
 import { Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -165,13 +165,13 @@ export default function Home() {
             onChange={handleNameInput}
           /> */}
           <div className={styles.inputBox}>
-          <Input
-            placeholder="find a user"
-            prefix={<UserOutlined />}
-            value={inputUserName}
-            onChange={handleNameInput}
-            size="large"
-          />
+            <Input
+              placeholder="find a user"
+              prefix={<UserOutlined />}
+              value={inputUserName}
+              onChange={handleNameInput}
+              size="large"
+            />
           </div>
 
           {/* {typeof returnObj !== "undefined" &&

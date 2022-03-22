@@ -1,5 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { UserContext, ACTION_TYPES } from "../../../_app";
+import {
+  UserContext,
+  ACTION_TYPES,
+} from "../../../../context/github-user-context";
 import style from "../../../../styles/repo.module.css";
 import { Button } from "antd";
 import { useRouter } from "next/router";

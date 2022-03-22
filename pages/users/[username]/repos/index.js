@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
-import { UserContext, ACTION_TYPES } from "../../../_app";
+import {
+  UserContext,
+  ACTION_TYPES,
+} from "../../../../context/github-user-context";
 import { List, message, Avatar, Skeleton, Divider, Empty } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import pageAccessedByReload from "../../../../lib/pageAccessedByReload";
