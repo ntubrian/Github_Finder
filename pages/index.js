@@ -164,6 +164,7 @@ export default function Home() {
             value={userName}
             onChange={handleNameInput}
           /> */}
+          <div className={styles.inputBox}>
           <Input
             placeholder="find a user"
             prefix={<UserOutlined />}
@@ -171,6 +172,7 @@ export default function Home() {
             onChange={handleNameInput}
             size="large"
           />
+          </div>
 
           {/* {typeof returnObj !== "undefined" &&
           typeof returnObj.data !== "undefined" &&
