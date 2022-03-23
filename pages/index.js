@@ -8,7 +8,7 @@ import { ACTION_TYPES, UserContext } from "../context/github-user-context";
 import { Input } from "antd";
 import { Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import useDebounce from "../hooks/useDebounce";
 
 export default function Home() {
@@ -19,12 +19,13 @@ export default function Home() {
   const [returnObj, setReturnObj] = useState("");
   const [loading, setLoading] = useState(false);
   const [debounceTime, setDebounceTime] = useState(0);
-  const router = useRouter();
+  // const router = useRouter();
   const debounce = useDebounce(inputUserName, debounceTime);
   const handleNameInput = (e) => {
     setUserName(e?.target?.value);
   };
 
+  //  抓取root頁面卡片的user avatar, user login name, user name
   const fetchPicAndName = async () => {
     if (inputUserName === "") {
       setReturnObj("");
@@ -40,11 +41,16 @@ export default function Home() {
     }
   };
 
+  //  偵測使用者打字停止後 700ms 才 call api，原本沒使用每打一個字母就 call 一次
   useEffect(() => {
     if (debounce) {
       fetchPicAndName();
     }
   }, [debounce, debounceTime]);
+
+  //  這邊是為了要解決原本使用 debounce 後，
+  //  當 input field 上一次有 key in，要查下一筆資料並把 input field 刪光再 key in
+  //  會造成圖片先顯示 search icon(預設當 input 為空就顯示) -> 上一次的 data 被 render -> 接著等 api call 回傳資料才 render 本次搜尋
   useEffect(() => {
     if (inputUserName === "") {
       setDebounceTime(0);
@@ -57,18 +63,6 @@ export default function Home() {
       setDebounceTime(700);
     }
   }, [inputUserName]);
-  const examineUndefined = (meta) => {
-    if (typeof meta !== "undefined" && typeof meta.data !== "undefined") {
-      return true;
-    }
-    return false;
-  };
-
-  useEffect(() => {
-    setUserName(sessionStorage.getItem("inputUserName"));
-    // console.log("hi");
-    console.log(indexPageState.inputUserName);
-  }, [router]);
 
   return (
     <div className={styles.container}>
