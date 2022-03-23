@@ -3,13 +3,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Dcard 前端作業自評&使用技術說明
 
 ✔️ 所有指定基本要求都有達到：
-不過有一點是 [串接 GET /repos/{owner}/{repo}](https://docs.github.com/en/rest/reference/repos#get-a-repository)，由於在第一支要求的 API [GET /users/{username}/repos](https://docs.github.com/en/rest/reference/repos#list-repositories-for-a-user) 就已經回傳所需要的資料，個人覺得沒必要打一次 API 得到重複的資料，因此 [串接 GET /repos/{owner}/{repo}] 有實作但沒有用到它。另外當使用者搜在首頁搜尋時我選擇使用 client-side API call，而另外兩個 route 則是使用 server-side API call，沒特別原因，單純為了更熟悉 Next.js 的框架使用而已
+不過有一點作業要求是 [串接 GET /repos/{owner}/{repo}](https://docs.github.com/en/rest/reference/repos#get-a-repository)，由於在第一支要求的 API [GET /users/{username}/repos](https://docs.github.com/en/rest/reference/repos#list-repositories-for-a-user) 就已經回傳所需要的資料，個人覺得沒必要再打另一支 API 得到重複的資料，因此 [串接 GET /repos/{owner}/{repo}] 有實作但沒有用到它。另外當使用者在首頁搜尋時我選擇使用 client-side API call，而另外兩個 route 則是使用 server-side API call，沒特別原因，單純為了更熟悉 Next.js 的框架使用而已
 
 ✔️ 使用 Vercel 部署：
 [點此連結查看](https://dcard-frontend-test.vercel.app/)
 
 - 為何使用 Next.js 開發：
-  因為個人覺得 file-based routing 這個特點開發起來超舒服，再來還有現成 Vercel 可以在每次 push 程式碼後順便 preview 在線上環境是否 work ，只能說好舒服呀 ~
+  因為個人覺得 file-based routing 這個特點開發起來超舒服，再來還有現成 Vercel 可以在每次 push 程式碼後順便 preview 線上環境是否 work ，只能說好舒服呀 ~
   (外傳：
   在串接 Github REST API 時，官方文件的範例是寫
   ```
@@ -41,7 +41,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 - RWD :
   - web
+  https://user-images.githubusercontent.com/43328591/159704484-eab162ef-c9a0-4d2f-92ee-160b0a47e592.mp4
   - mobile
+  https://user-images.githubusercontent.com/43328591/159703899-025bf232-30e5-42bf-a0c6-27846e7679c5.mp4
+
 
 ## Getting Started
 
