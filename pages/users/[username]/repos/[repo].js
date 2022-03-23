@@ -1,4 +1,5 @@
-import { useEffect, useState, useContext } from "react";
+import Head from "next/head";
+import { useEffect, useContext } from "react";
 import {
   UserContext,
   ACTION_TYPES,
@@ -8,10 +9,16 @@ import { Button } from "antd";
 import { useRouter } from "next/router";
 import Back from "../../../../components/Back";
 import Home from "../../../../components/Home";
+
 const repo = () => {
   const { indexPageState, dispatch } = useContext(UserContext);
   const router = useRouter();
+
   const restoreBackUp = () => {
+    dispatch({
+      type: ACTION_TYPES.SET_INPUT_USER_NAME,
+      payload: { inputUserName: sessionStorage.getItem("inputUserName") },
+    });
     dispatch({
       type: ACTION_TYPES.SET_SELECTED_REPO_NAME,
       payload: { selectedRepoName: sessionStorage.getItem("selectedRepoName") },
@@ -33,7 +40,11 @@ const repo = () => {
       },
     });
   };
-  const fetchSingleRepo = async () => {
+
+  //  這是前端作業要求使用的第二支 api 不過覺得有點浪費資源
+  //  因為第一支 api GET /users/{username}/repos 就已經回傳這邊的資料
+  //  因此這邊僅實作，但不使用它
+  const fetchSingleRepoMeta = async () => {
     try {
       const response = await fetch(
         `../../../api/getUserSingleRepo?owner=${indexPageState.inputUserName}&repo=${indexPageState.selectedRepoName}`
@@ -47,11 +58,18 @@ const repo = () => {
   };
   useEffect(() => {
     restoreBackUp();
-    // fetchSingleRepo();
+    // fetchSingleRepoMeta();
     console.log(indexPageState.inputUserName);
   }, [router]);
   return (
     <div>
+      <Head>
+        <title>{`${indexPageState.selectedRepoName}`}</title>
+        <meta
+          name="description"
+          content={`${indexPageState.selectedRepoName}`}
+        ></meta>
+      </Head>
       <div className={style.navContainer}>
         <Home></Home>
         <Back backTo={router.back}></Back>

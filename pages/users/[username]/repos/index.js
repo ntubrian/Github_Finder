@@ -4,53 +4,36 @@ import {
   UserContext,
   ACTION_TYPES,
 } from "../../../../context/github-user-context";
-import { List, message, Avatar, Skeleton, Divider, Empty } from "antd";
+import { List, Skeleton, Divider } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
-import pageAccessedByReload from "../../../../lib/pageAccessedByReload";
 import "antd/dist/antd.css";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import style from "../../../../styles/repos.module.css";
 import Home from "../../../../components/Home";
-import { useMediaQuery } from "react-responsive";
+
 const repos = (props) => {
-  const [isBigScreen, setBigScreen] = useState(0);
-
-  // const resize = () => {
-  //   setBigScreen(window.innerWidth > 600)
-  //   if (window.innerWidth > 600) {
-  //     setBigScreen(true);
-  //   } else {
-  //     setBigScreen(false);
-  //   }
-  // };
-  useEffect(() => {
-    // window.addEventListener("resize", resize);
-    setBigScreen(window.innerWidth > 600);
-  }, []);
-
-  // const isMobile = useMediaQuery({ query: `(min-width: 700px)` });
-  const [idArr, setId] = useState(Array(10).fill(0));
-  // console.log("props", props);
   const routerProps = useRouter();
-  // console.log("routerProps", routerProps);
-  const { indexPageState, dispatch } = useContext(UserContext);
-  // const userName = routerProps.query.username;
-  // console.log(userName);
-  // 跳到這個route才設定inputUserName可能有點怪？
-  // **更 到Results.js 那邊設定
-
-  // const publicRepoLength = routerProps.query.public_repos;
   const [userName, setUserName] = useState(routerProps.query.username);
   const [publicRepoLength, setPublicRepoLength] = useState(
     routerProps.query.public_repos
   );
+  const [isBigScreen, setBigScreen] = useState(0);
+  const [idArr, setId] = useState(Array(10).fill(0));
 
+  const { indexPageState, dispatch } = useContext(UserContext);
   const [userMeta, setUserMeta] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  // console.log("@@@@", userMeta);
+
+  useEffect(() => {
+    setBigScreen(window.innerWidth > 600);
+  }, []);
+
+  // 跳到這個route才設定inputUserName可能有點怪？
+  // **更 到Results.js 那邊設定
+
   const ContainerHeight = 400;
   const onScroll = (e) => {
     if (e.target.scrollHeight - e.target.scrollTop === ContainerHeight) {
@@ -106,13 +89,11 @@ const repos = (props) => {
       setId(idArr.concat(arr));
       setUserMeta(userMeta.concat(result.data));
       setLoading(false);
-      console.log(result);
     } catch (error) {
       console.log(error);
 
       setLoading(false);
     }
-    console.log(userMeta);
   };
 
   useEffect(() => {
@@ -134,9 +115,7 @@ const repos = (props) => {
         selectedUserFollowers: sessionStorage.getItem("selectedUserFollowers"),
       },
     });
-
     fetchRepos();
-
     setUserName(routerProps.query.username);
     setPublicRepoLength(routerProps.query.public_repos);
   }, [userName, routerProps]);
