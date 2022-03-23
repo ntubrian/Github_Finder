@@ -46,10 +46,14 @@
 }
 
 .home:hover {
-  box-shadow: 0 0 5px rgb(0 106 166);
+  color: white;
+  background-color: rgb(0 106 166);
+  border-radius: 50%;
 }
 .back:hover {
-  box-shadow: 0 0 5px rgb(0 106 166);
+  color: white;
+  background-color: rgb(0 106 166);
+  border-radius: 50%;
 }
 @media screen and (min-width: 600px) {
   .repoContainer {
@@ -91,6 +95,14 @@
     transform: scale(3);
   }
   .back:hover {
-    box-shadow: 0 0 10px rgb(0 106 166);
+    color: white;
+    background-color: rgb(0 106 166);
+    border-radius: 50%;
+  }
+  .home:hover {
+    color: white;
+    background-color: rgb(0 106 166);
+    border-radius: 50%;
+    /* box-shadow: 0 0 5px rgb(0 106 166); */
   }
 }
