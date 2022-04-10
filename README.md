@@ -1,6 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-⚠️ Deploy 環境不明原因壞掉了(可能是換了新的 env token 不適用舊的 deployment)!!! 搶修中 2022/4/10 21:22 ⚠️
+~~⚠️ Deploy 環境不明原因壞掉了(可能是換了新的 env token 不適用舊的 deployment)!!! 搶修中 2022/4/10 21:22 ⚠️~~
+2022/4/10 21:43 搶修完畢
 
 ## Dcard 前端作業自評&使用技術說明
 
