@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+⚠️ Deploy 環境不明原因壞掉了(可能是換了新的 env token 不適用舊的 deployment)!!! 搶修中 2022/4/10 21:22 ⚠️
+
 ## Dcard 前端作業自評&使用技術說明
 
 ✔️ 所有指定基本要求都有達到：
@@ -41,10 +43,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 - RWD :
   - web
-  https://user-images.githubusercontent.com/43328591/159704484-eab162ef-c9a0-4d2f-92ee-160b0a47e592.mp4
+    https://user-images.githubusercontent.com/43328591/159704484-eab162ef-c9a0-4d2f-92ee-160b0a47e592.mp4
   - mobile
-  https://user-images.githubusercontent.com/43328591/159703899-025bf232-30e5-42bf-a0c6-27846e7679c5.mp4
-
+    https://user-images.githubusercontent.com/43328591/159703899-025bf232-30e5-42bf-a0c6-27846e7679c5.mp4
 
 ## Getting Started
 
