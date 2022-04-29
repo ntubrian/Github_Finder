@@ -12,16 +12,21 @@
     "@octokit/core": "^3.5.1",
     "@octokit/request": "^5.6.3",
     "antd": "^4.19.2",
+    "daisyui": "^2.14.2",
     "next": "12.1.0",
     "next-plugin-antd-less": "^1.8.0",
     "nprogress": "^0.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-responsive": "*",
     "zustand": "^3.7.1"
   },
   "devDependencies": {
-    "babel-plugin-import": "^1.13.3"
+    "autoprefixer": "^10.4.5",
+    "babel-plugin-import": "^1.13.3",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.24"
   }
 }

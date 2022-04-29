@@ -125,9 +125,7 @@ const repos = (props) => {
         <title>{`${userName}'s github repos`}</title>
         <meta name="description" content={`${userName}'s github repos`}></meta>
       </Head>
-      <div className={style.navContainer}>
-        <Home></Home>
-      </div>
+
       <div className={style.profileContainer}>
         <div className={style.picContainer}>
           <Image
