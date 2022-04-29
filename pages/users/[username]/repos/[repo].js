@@ -71,7 +71,6 @@ const repo = () => {
         ></meta>
       </Head>
       <div className={style.navContainer}>
-        <Home></Home>
         <Back backTo={router.back}></Back>
       </div>
 
