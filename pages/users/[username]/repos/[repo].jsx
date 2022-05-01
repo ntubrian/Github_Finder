@@ -3,12 +3,12 @@ import { useEffect, useContext } from "react";
 import {
   UserContext,
   ACTION_TYPES,
-} from "../../../../context/github-user-context";
-import style from "../../../../styles/repo.module.css";
+} from "context/github-user-context";
+import style from "styles/repo.module.css";
 import { Button } from "antd";
 import { useRouter } from "next/router";
-import Back from "../../../../components/Back";
-import Home from "../../../../components/Home";
+import Back from "components/Back";
+import Home from "components/Home";
 
 const repo = () => {
   const { indexPageState, dispatch } = useContext(UserContext);

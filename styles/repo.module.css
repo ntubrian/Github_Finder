@@ -37,8 +37,8 @@
 .navContainer {
   display: flex;
   z-index: 50;
-  position: absolute;
-  top: 30px;
+  /* position: absolute; */
+  margin-top: 30px;
   left: 25px;
   transform: scale(2);
   width: 40px;
@@ -88,11 +88,11 @@
     display: flex;
     z-index: 50;
     position: absolute;
-    top: 40px;
+    top: 70px;
     left: 54px;
     width: 40px;
     justify-content: space-evenly;
-    transform: scale(3);
+    transform: scale(2.5);
   }
   .back:hover {
     color: white;

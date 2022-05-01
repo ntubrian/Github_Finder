@@ -1,4 +1,4 @@
-import { getOneUserReposMeta } from "../../lib/getOneUserMeta";
+import { getOneUserReposMeta } from "lib/getOneUserMeta";
 
 const getUserRepos = async (req, res) => {
   try {

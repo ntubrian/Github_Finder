@@ -1,20 +1,26 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import styles from "styles/Home.module.css";
 import { useState, useEffect, useContext } from "react";
-import { getOneUserMeta } from "../lib/getOneUserMeta";
-import Result from "../components/Results";
-import { ACTION_TYPES, UserContext } from "../context/github-user-context";
+import { getOneUserMeta, getUsers } from "lib/getOneUserMeta";
+// import Result from "components/users/Results";
+import ShowUsersResult from "components/users/ShowUsersResult";
+import { ACTION_TYPES, UserContext } from "context/github-user-context";
+import { ACTION_TYPES2, UsersContext } from "context/github-users-context";
 import { Input } from "antd";
 import { Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 // import { useRouter } from "next/router";
-import useDebounce from "../hooks/useDebounce";
-// import Navbar from "../components/Navbar";
+import useDebounce from "hooks/useDebounce";
+
 export default function Home() {
   const { indexPageState, dispatch } = useContext(UserContext);
+  const { usersPageState, dispatchUsers } = useContext(UsersContext);
+  const [isSearchingUsers, setSearchUser] = useState(true);
   const [inputUserName, setUserName] = useState(() =>
-    indexPageState?.inputUserName ? indexPageState.inputUserName : ""
+    isSearchingUsers
+      ? usersPageState?.searchUsersInput
+      : indexPageState?.inputUserName
   );
   const [returnObj, setReturnObj] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +41,13 @@ export default function Home() {
       }
       setLoading(true);
       const returnPicAndName = await getOneUserMeta(inputUserName);
-      console.log(returnPicAndName);
+      const tryUsers = await getUsers(inputUserName);
+      dispatchUsers({
+        type: ACTION_TYPES2.SET_USERS,
+        payload: { usersMeta: tryUsers.data.items },
+      });
+      // console.log("###", usersPageState);
+      // console.log("////", returnPicAndName);
       setReturnObj(returnPicAndName);
       setLoading(false);
     }
@@ -45,6 +57,11 @@ export default function Home() {
   useEffect(() => {
     if (debounce) {
       fetchPicAndName();
+      sessionStorage.setItem("searchUsersInput", inputUserName);
+      dispatchUsers({
+        type: ACTION_TYPES2.SET_SEARCHUSERSINPUT,
+        payload: { searchUsersInput: inputUserName },
+      });
     }
   }, [debounce, debounceTime]);
 
@@ -53,13 +70,10 @@ export default function Home() {
   //  會造成圖片先顯示 search icon(預設當 input 為空就顯示) -> 上一次的 data 被 render -> 接著等 api call 回傳資料才 render 本次搜尋
   useEffect(() => {
     if (inputUserName === "") {
-      setDebounceTime(0);
-      console.log(0);
+      // setDebounceTime(0);
       setReturnObj("");
       setUserName("");
-      console.log("HI");
     } else {
-      console.log(700);
       setDebounceTime(700);
     }
   }, [inputUserName]);
@@ -72,9 +86,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="px-0 py-40 flex flex-col justify-center items-center">
-        <div className={styles.transForm}>
-          <div className={styles.inputBox}>
+      <main className="mx-auto px-0 pb-40 flex flex-col justify-center items-center">
+        <div>
+          <div className={`${styles.transForm} w-60 mx-auto mb-10 mt-4`}>
             <Input
               placeholder="find a user"
               prefix={<UserOutlined />}
@@ -84,24 +98,31 @@ export default function Home() {
             />
           </div>
 
-          <div
-            className={`${styles.resultCardContainer} ${
-              loading && styles.spinContainer
-            }`}
-          >
+          <div className={`${loading && styles.spinContainer}`}>
             {inputUserName === "" ? (
               <div className={styles.searchPic}>
-                <Image src="/img/search.png" width={230} height={230}></Image>
+                <Image
+                  src="/img/search.png"
+                  width={230}
+                  height={230}
+                  className={styles.transForm}
+                ></Image>
               </div>
             ) : loading ? (
               <Spin size="large" />
             ) : (
-              <Result
-                href={`users/${inputUserName}/repos`}
-                inputUserName={inputUserName}
-                meta={returnObj}
-                debounce={debounce}
-              ></Result>
+              <div className="grid grid-cols-1 gap-8 xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2">
+                {usersPageState.usersMeta &&
+                  usersPageState.usersMeta.map((user) => (
+                    <ShowUsersResult
+                      href={`users/${user.login}/repos`}
+                      inputUserName={user.login}
+                      meta={user}
+                      debounce={debounce}
+                      key={user.id}
+                    ></ShowUsersResult>
+                  ))}
+              </div>
             )}
           </div>
         </div>
