@@ -12,19 +12,50 @@ import { getOneUserMeta } from "lib/getOneUserMeta";
 import LocalScrollToTop from "components/LocalScrollToTop";
 import ReposList from "components/ReposList";
 
-const repos = (props) => {
+export async function getServerSideProps(context) {
+  const baseURL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://bins-github-finder.vercel.app";
+  const FirstReposReq = await (
+    await fetch(
+      `${baseURL}/api/getUserRepos?username=${context.query.username}&page=${1}`
+    )
+  ).json();
+  // const result = await response.json();
+
+  // console.log("###Result", reposResult);
+
+  const arr = Array(10).fill(0);
+  console.log(context.query);
+
+  FirstReposReq.data.forEach((element) => {
+    arr.push(element.id);
+  });
+  console.log(arr);
+
+  // setId(idArr.concat(arr));
+  // setUserReposMeta(userReposMeta.concat(reposResult.data));
+  // setLoading(false);
+
+  return {
+    props: { arr, FirstReposReq }, // will be passed to the page component as props
+  };
+}
+
+const Repos = ({ arr, FirstReposReq }) => {
   const routerProps = useRouter();
   const [userName, setUserName] = useState(routerProps.query.username);
   const [publicRepoLength, setPublicRepoLength] = useState(
     routerProps.query.public_repos
   );
   const [isBigScreen, setBigScreen] = useState(0);
-  const [idArr, setId] = useState(Array(10).fill(0));
+  const [idArr, setId] = useState(arr);
 
   const { indexPageState, dispatch } = useContext(UserContext);
-  const [userReposMeta, setUserReposMeta] = useState([]);
+  const [userReposMeta, setUserReposMeta] = useState(FirstReposReq.data);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
 
   useEffect(async () => {
     setBigScreen(window.innerWidth > 600);
@@ -131,7 +162,7 @@ const repos = (props) => {
         selectedUserFollowers: sessionStorage.getItem("selectedUserFollowers"),
       },
     });
-    fetchRepos();
+    // fetchRepos();
     setUserName(routerProps.query.username);
     setPublicRepoLength(routerProps.query.public_repos);
   }, [userName, routerProps]);
@@ -230,4 +261,4 @@ const repos = (props) => {
   );
 };
 
-export default repos;
+export default Repos;
