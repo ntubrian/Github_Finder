@@ -11,17 +11,7 @@ const ShowUsersResult = (props) => {
   const { indexPageState, dispatch } = useContext(UserContext);
   const { Meta } = Card;
   const [scrrenWidth, setScreenWidth] = useState(0);
-  const examineUndefined = () => {
-    if (typeof meta !== "undefined" && typeof meta.data !== "undefined") {
-      // dispatch({
-      //   type: ACTION_TYPES.SET_USER_AVATAR_URL,
-      //   payload: { userAvatarUrl: [meta.data.avatar_url] },
-      // });
-      console.log("I'm Meta", meta);
-      return true;
-    }
-    return false;
-  };
+
   const keepCardInfo = () => {
     sessionStorage.setItem("inputUserName", meta?.login);
     sessionStorage.setItem("userAvatarUrl", meta?.avatar_url);
@@ -78,7 +68,7 @@ const ShowUsersResult = (props) => {
 
   return (
     <Link href={meta?.login ? new_href : ""}>
-      {meta?.login ? (
+      {meta?.login && (
         <Card
           // size={scrrenWidth < 600 ? "small" : "default"}
           hoverable
@@ -92,11 +82,6 @@ const ShowUsersResult = (props) => {
             description="visit profile"
           />
         </Card>
-      ) : (
-        <>
-          <Image src="/img/no_data.png" width={260} height={260}></Image>
-          <h1 className={style.noData}>No data！</h1>
-        </>
       )}
     </Link>
   );
