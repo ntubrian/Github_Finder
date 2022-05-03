@@ -1,4 +1,4 @@
-import { getOneUserSingleRepoMeta } from "../../lib/getOneUserMeta";
+import { getOneUserSingleRepoMeta } from "lib/getOneUserMeta";
 
 const getUserSingleRepo = async (req, res) => {
   try {

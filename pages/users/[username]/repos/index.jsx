@@ -1,17 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
-import {
-  UserContext,
-  ACTION_TYPES,
-} from "../../../../context/github-user-context";
+import { UserContext, ACTION_TYPES } from "context/github-user-context";
 import { List, Skeleton, Divider } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "antd/dist/antd.css";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
-import style from "../../../../styles/repos.module.css";
-import Home from "../../../../components/Home";
+import style from "styles/repos.module.css";
+import { getOneUserMeta } from "lib/getOneUserMeta";
+import LocalScrollToTop from "components/LocalScrollToTop";
+import ReposList from "components/ReposList";
 
 const repos = (props) => {
   const routerProps = useRouter();
@@ -23,12 +22,25 @@ const repos = (props) => {
   const [idArr, setId] = useState(Array(10).fill(0));
 
   const { indexPageState, dispatch } = useContext(UserContext);
-  const [userMeta, setUserMeta] = useState([]);
+  const [userReposMeta, setUserReposMeta] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
+  useEffect(async () => {
     setBigScreen(window.innerWidth > 600);
+    const userMeta = await getOneUserMeta(
+      sessionStorage.getItem("inputUserName")
+    );
+    sessionStorage.setItem("userRealName", userMeta?.data?.name);
+    sessionStorage.setItem("selectedUserFollowers", userMeta?.data?.followers);
+    dispatch({
+      type: ACTION_TYPES.SET_USER_REAL_NAME,
+      payload: { userRealName: userMeta?.data?.name },
+    });
+    dispatch({
+      type: ACTION_TYPES.SET_SELECTED_USER_FOLLOWERS,
+      payload: { selectedUserFollowers: userMeta?.data.followers },
+    });
   }, []);
 
   // 跳到這個route才設定inputUserName可能有點怪？
@@ -73,21 +85,25 @@ const repos = (props) => {
     setPage((prev) => prev + 1);
     setLoading(true);
     try {
-      const response = await fetch(
-        `../../api/getUserRepos?username=${sessionStorage.getItem(
-          "inputUserName"
-        )}&page=${page}`
-      );
-      const result = await response.json();
+      const reposResult = await (
+        await fetch(
+          `../../api/getUserRepos?username=${sessionStorage.getItem(
+            "inputUserName"
+          )}&page=${page}`
+        )
+      ).json();
+      // const result = await response.json();
+
+      console.log("###Result", reposResult);
 
       const arr = [];
 
-      result.data.forEach((element) => {
+      reposResult.data.forEach((element) => {
         arr.push(element.id);
       });
 
       setId(idArr.concat(arr));
-      setUserMeta(userMeta.concat(result.data));
+      setUserReposMeta(userReposMeta.concat(reposResult.data));
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -130,8 +146,8 @@ const repos = (props) => {
         <div className={style.picContainer}>
           <Image
             src={
-              indexPageState.userAvatarUrl.length > 0
-                ? indexPageState.userAvatarUrl[0]
+              indexPageState?.userAvatarUrl?.length > 0
+                ? indexPageState?.userAvatarUrl[0]
                 : "https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif"
             }
             width={isBigScreen ? 276 : 200}
@@ -160,16 +176,22 @@ const repos = (props) => {
             border: "1px solid rgba(140, 140, 140, 0.35)",
           }}
         >
+          <LocalScrollToTop
+            bottomPosition={1}
+            rightPosition={1}
+            id="scrollableDiv"
+          ></LocalScrollToTop>
+
           <InfiniteScroll
-            dataLength={userMeta.length}
+            dataLength={userReposMeta.length}
             next={fetchRepos}
-            hasMore={userMeta.length < publicRepoLength}
+            hasMore={userReposMeta.length < publicRepoLength}
             loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
             endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
             scrollableTarget="scrollableDiv"
           >
             <List
-              dataSource={userMeta}
+              dataSource={userReposMeta}
               locale={{
                 emptyText:
                   publicRepoLength > 0
@@ -179,8 +201,10 @@ const repos = (props) => {
               renderItem={(item) => (
                 <Link
                   href={`/users/${userName}/repos/${item.name}@${item.node_id}`}
+                  passHref
                 >
-                  <List.Item
+                  <ReposList idArr={idArr} item={item} />
+                  {/* <List.Item
                     key={item.id}
                     onClick={() => setSeletedRepoContext(item)}
                     className={`${style.listItem} ${
@@ -195,7 +219,7 @@ const repos = (props) => {
                     <div
                       className={style.starContext}
                     >{`⭐${item.stargazers_count}`}</div>
-                  </List.Item>
+                  </List.Item> */}
                 </Link>
               )}
             />

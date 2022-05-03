@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
-import { ACTION_TYPES, UserContext } from "../context/github-user-context";
+import { ACTION_TYPES, UserContext } from "context/github-user-context";
 import { Card } from "antd";
-import style from "../styles/Home.module.css";
+import style from "styles/Home.module.css";
 const Result = (props) => {
   const { inputUserName, meta, debounce } = props;
   const [new_href, setNewHref] = useState("");

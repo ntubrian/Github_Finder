@@ -10,7 +10,7 @@ const Navbar = ({ title }) => {
     setActive(!active);
   };
   return (
-    <nav className="sticky navbar mb-12 shadow-lg bg-neutral text-neutral-content flex flex-wrap w-full p-3">
+    <nav className="sticky top-0 z-40 shadow-lg bg-neutral-50 flex flex-wrap w-full p-3">
       <div className="px-2 mx-2 align-middle inline-flex items-center font-bold text-lg">
         <Link href="/" className="">
           <a className="hover:cursor-pointer">
@@ -20,7 +20,7 @@ const Navbar = ({ title }) => {
         </Link>
       </div>
       <button
-        className="p-3 hover:bg-blue-600 rounded lg:hidden text-black ml-auto outline-none"
+        className="p-3 hover:bg-blue-400 rounded lg:hidden text-black ml-auto outline-none"
         onClick={handleClick}
       >
         <svg
