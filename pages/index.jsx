@@ -98,7 +98,7 @@ export default function Home() {
         <div>
           <div className={`${styles.transForm} w-60 mx-auto mb-10 mt-4`}>
             <Input
-              placeholder="find a user"
+              placeholder="find user(s)"
               prefix={<UserOutlined />}
               value={inputUserName}
               onChange={handleNameInput}
