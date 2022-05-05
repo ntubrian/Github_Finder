@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   const baseURL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : process.env.VERCEL_URL;
+      : process.env.NEXT_PUBLIC_VERCEL_URL;
   const FirstReposReq = await (
     await fetch(
       `${baseURL}/api/getUserRepos?username=${context.query.username}&page=${1}`
@@ -72,6 +72,7 @@ const Repos = ({ arr, FirstReposReq }) => {
       type: ACTION_TYPES.SET_SELECTED_USER_FOLLOWERS,
       payload: { selectedUserFollowers: userMeta?.data.followers },
     });
+    console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
   }, []);
 
   // 跳到這個route才設定inputUserName可能有點怪？
