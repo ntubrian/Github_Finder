@@ -13,13 +13,13 @@ import LocalScrollToTop from "components/LocalScrollToTop";
 import ReposList from "components/ReposList";
 
 export async function getServerSideProps(context) {
-  const baseURL =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : "https://bins-github-finder.vercel.app";
+  // const baseURL =
+  //   process.env.NODE_ENV === "development"
+  //     ? "http://localhost:3000"
+  //     : "https://bins-github-finder.vercel.app";
   const FirstReposReq = await (
     await fetch(
-      `${baseURL}/api/getUserRepos?username=${context.query.username}&page=${1}`
+      `../../api/getUserRepos?username=${context.query.username}&page=${1}`
     )
   ).json();
   // const result = await response.json();
