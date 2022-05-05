@@ -26,7 +26,7 @@ const ShowUsersResult = (props) => {
   };
 
   useEffect(() => {
-    let isUnmount = false;
+    // let isUnmount = false;
     const fetchUserMeta = async () => {
       if (meta?.login) {
         // sessionStorage.setItem("inputUserName", meta?.login);
@@ -50,16 +50,15 @@ const ShowUsersResult = (props) => {
         //   payload: { selectedUserFollowers: meta.data.followers },
         // });
         const returnPicAndName = await getOneUserMeta(inputUserName);
-        if (!isUnmount) {
-          setNewHref(
-            `users/${meta.login}/repos` +
-              `?public_repos=${returnPicAndName?.data?.public_repos}`
-          );
-        }
+
+        setNewHref(
+          `users/${meta.login}/repos` +
+            `?public_repos=${returnPicAndName?.data?.public_repos}`
+        );
       }
     };
     fetchUserMeta();
-    return () => (isUnmount = true);
+    // return () => (isUnmount = true);
   }, [debounce]);
 
   useEffect(() => {
