@@ -13,10 +13,11 @@ import LocalScrollToTop from "components/LocalScrollToTop";
 import ReposList from "components/ReposList";
 
 export async function getServerSideProps(context) {
+  console.log(process.env.VERCEL_URL);
   const baseURL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : process.env.NEXT_PUBLIC_VERCEL_URL;
+      : process.env.VERCEL_URL;
 
   const FirstReposReq = await (
     await fetch(
