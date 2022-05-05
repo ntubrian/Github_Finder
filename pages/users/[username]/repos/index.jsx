@@ -21,7 +21,9 @@ export async function getServerSideProps(context) {
 
   const FirstReposReq = await (
     await fetch(
-      `${baseURL}/api/getUserRepos?username=${context.query.username}&page=${1}`
+      `https://${baseURL}/api/getUserRepos?username=${
+        context.query.username
+      }&page=${1}`
     )
   ).json();
 
