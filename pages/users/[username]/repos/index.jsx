@@ -38,7 +38,7 @@ export async function getServerSideProps(context) {
   FirstReposReq.data.forEach((element) => {
     arr.push(element.id);
   });
-  console.log(arr);
+  // console.log(arr);
 
   // setId(idArr.concat(arr));
   // setUserReposMeta(userReposMeta.concat(reposResult.data));
