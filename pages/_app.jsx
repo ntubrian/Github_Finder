@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
       router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);
     };
-  }, [router]);
+  }, []);
   return isLoading ? (
     <div className="bg-white flex space-x-2 p-5 rounded-full justify-center items-center">
       <div className="bg-blue-600 p-2  w-4 h-4 rounded-full animate-bounce "></div>
