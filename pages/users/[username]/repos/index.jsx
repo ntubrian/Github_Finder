@@ -144,7 +144,7 @@ const Repos = ({ arr, FirstReposReq }) => {
       setUserReposMeta(userReposMeta.concat(reposResult.data));
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error("Error here", error);
 
       setLoading(false);
     }
