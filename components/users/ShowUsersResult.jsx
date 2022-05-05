@@ -73,9 +73,16 @@ const ShowUsersResult = (props) => {
           // size={scrrenWidth < 600 ? "small" : "default"}
           hoverable
           style={{ width: 240 }}
-          cover={<img alt="example" src={meta?.avatar_url} />}
+          cover={
+            <Image
+              width="240"
+              height="240"
+              alt="example"
+              src={meta?.avatar_url}
+            />
+          }
           onClick={keepCardInfo}
-          className={style.transForm}
+          className="scale-[0.8] sm:scale-100" //{style.transForm}
         >
           <Meta
             title={meta?.login == "null" ? "" : meta?.login} // 這邊要記得改為 .name
