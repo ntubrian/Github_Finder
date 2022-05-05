@@ -14,7 +14,7 @@ Router.events.on("routeChangeError", nProgress.done);
 Router.events.on("routeChangeComplete", nProgress.done);
 function MyApp({ Component, pageProps }) {
   console.log(process.env.NODE_ENV);
-  console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log(NEXT_PUBLIC_VERCEL_URL);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(async () => {
