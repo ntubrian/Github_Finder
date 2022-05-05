@@ -22,7 +22,6 @@ export async function getServerSideProps(context) {
       `../../api/getUserRepos?username=${context.query.username}&page=${1}`
     )
   ).json();
-  // const result = await response.json();
 
   // console.log("###Result", reposResult);
 
