@@ -17,11 +17,17 @@ export async function getServerSideProps(context) {
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
       : process.env.NEXT_PUBLIC_VERCEL_URL;
-  const FirstReposReq = await (
-    await fetch(
-      `${baseURL}/api/getUserRepos?username=${context.query.username}&page=${1}`
-    )
-  ).json();
+  try {
+    const FirstReposReq = await (
+      await fetch(
+        `${baseURL}/api/getUserRepos?username=${
+          context.query.username
+        }&page=${1}`
+      )
+    ).json();
+  } catch (err) {
+    console.error("ERR", err);
+  }
   // const result = await response.json();
 
   // console.log("###Result", reposResult);
