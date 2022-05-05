@@ -13,6 +13,8 @@ Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
 Router.events.on("routeChangeComplete", nProgress.done);
 function MyApp({ Component, pageProps }) {
+  console.log(process.env.NODE_ENV);
+  console.log(process.env.VERCEL_URL);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(async () => {
