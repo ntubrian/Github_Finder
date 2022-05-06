@@ -26,7 +26,7 @@ const ShowUsersResult = (props) => {
   };
 
   useEffect(() => {
-    let isUnmount = false;
+    // let isUnmount = false;
     const fetchUserMeta = async () => {
       if (meta?.login) {
         // sessionStorage.setItem("inputUserName", meta?.login);
@@ -50,16 +50,15 @@ const ShowUsersResult = (props) => {
         //   payload: { selectedUserFollowers: meta.data.followers },
         // });
         const returnPicAndName = await getOneUserMeta(inputUserName);
-        if (!isUnmount) {
-          setNewHref(
-            `users/${meta.login}/repos` +
-              `?public_repos=${returnPicAndName?.data?.public_repos}`
-          );
-        }
+
+        setNewHref(
+          `users/${meta.login}/repos` +
+            `?public_repos=${returnPicAndName?.data?.public_repos}`
+        );
       }
     };
     fetchUserMeta();
-    return () => (isUnmount = true);
+    // return () => (isUnmount = true);
   }, [debounce]);
 
   useEffect(() => {
@@ -73,9 +72,16 @@ const ShowUsersResult = (props) => {
           // size={scrrenWidth < 600 ? "small" : "default"}
           hoverable
           style={{ width: 240 }}
-          cover={<img alt="example" src={meta?.avatar_url} />}
+          cover={
+            <Image
+              width="240"
+              height="240"
+              alt="example"
+              src={meta?.avatar_url}
+            />
+          }
           onClick={keepCardInfo}
-          className={style.transForm}
+          className="scale-[0.8] sm:scale-100" //{style.transForm}
         >
           <Meta
             title={meta?.login == "null" ? "" : meta?.login} // 這邊要記得改為 .name

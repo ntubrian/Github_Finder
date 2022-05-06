@@ -13,26 +13,29 @@ import LocalScrollToTop from "components/LocalScrollToTop";
 import ReposList from "components/ReposList";
 
 export async function getServerSideProps(context) {
+  // console.log(process.env.VERCEL_URL);
   const baseURL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://bins-github-finder.vercel.app";
+      : `https://${process.env.VERCEL_URL}`;
+
   const FirstReposReq = await (
     await fetch(
       `${baseURL}/api/getUserRepos?username=${context.query.username}&page=${1}`
     )
   ).json();
+
   // const result = await response.json();
 
   // console.log("###Result", reposResult);
 
   const arr = Array(10).fill(0);
-  console.log(context.query);
+  // console.log(context.query);
 
   FirstReposReq.data.forEach((element) => {
     arr.push(element.id);
   });
-  console.log(arr);
+  // console.log(arr);
 
   // setId(idArr.concat(arr));
   // setUserReposMeta(userReposMeta.concat(reposResult.data));
@@ -72,6 +75,7 @@ const Repos = ({ arr, FirstReposReq }) => {
       type: ACTION_TYPES.SET_SELECTED_USER_FOLLOWERS,
       payload: { selectedUserFollowers: userMeta?.data.followers },
     });
+    console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
   }, []);
 
   // 跳到這個route才設定inputUserName可能有點怪？
@@ -137,7 +141,7 @@ const Repos = ({ arr, FirstReposReq }) => {
       setUserReposMeta(userReposMeta.concat(reposResult.data));
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error("Error here", error);
 
       setLoading(false);
     }
