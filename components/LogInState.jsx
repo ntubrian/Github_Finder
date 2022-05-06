@@ -38,12 +38,12 @@ const LogInState = () => {
   }, []);
 
   return (
-    <nav className="flex group ml-auto lg:inline-flex lg:w-auto w-full px-3 py-2 items-center justify-center overflow-hidden">
+    <nav className="flex group ml-auto lg:inline-flex lg:w-auto w-full px-3 py-2 items-center lg:justify-center overflow-hidden">
       <button
         className="font-bold flex items-center overflow-hidden group-hover:bg-gray-600 group-hover:rounded "
         onClick={handleShowDropdown}
       >
-        <a className="text-base font-bold group-hover:text-white mb-0">
+        <a className="text-base font-bold group-hover:text-white mb-0 text-ellipsis">
           {userEmail}
         </a>
         <svg
@@ -70,10 +70,10 @@ const LogInState = () => {
       </button>
 
       {showDropdown && (
-        <div className="absolute mt-0 ml-80 lg:ml-0 lg:mt-32 px-4 py-2 bg-slate-200 border-[1px] rounded	border-blue-400	">
+        <div className="absolute mt-0 ml-48 lg:ml-0 lg:mt-32 px-2 py-1 lg:px-4 lg:py-2 bg-slate-200 border-[1px] rounded	border-blue-400	">
           <div>
             <a
-              className="block px-2 text-base leading-5 rounded "
+              className="block px-2 text-sm lg:text-base leading-5 rounded "
               onClick={handleSignout}
             >
               Sign out

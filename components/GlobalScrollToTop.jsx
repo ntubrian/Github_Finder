@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { BiArrowFromBottom } from "react-icons/bi";
-
+import { useRouter } from "next/router";
 import { classNames } from "utils/classNames";
 
 const GlobalScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
+  const hiddenRoute = {
+    LOGIN: "LOGIN",
+  };
+  const [isHiddenRoute, setHidden] = useState(
+    router.route === hiddenRoute.LOGIN
+  );
 
   const toggleVisibility = () => {
     if (window.pageYOffset > 200) {
@@ -23,14 +30,13 @@ const GlobalScrollToTop = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", toggleVisibility);
-
     return () => {
       window.removeEventListener("scroll", toggleVisibility);
     };
   }, []);
 
   return (
-    <div className="fixed bottom-2 right-2 z-30">
+    <div className={`${isHiddenRoute && "hidden"}fixed bottom-2 right-2 z-30`}>
       <button
         type="button"
         onClick={scrollToTop}

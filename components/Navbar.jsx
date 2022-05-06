@@ -8,7 +8,7 @@ import { magic } from "lib/magic_login/magicClient";
 // import PropTypes from "prop-types";
 const Navbar = ({ title }) => {
   const [active, setActive] = useState(false);
-  const isLoingPage = useRouter().asPath === "/login";
+  const isLogingPage = useRouter().asPath === "/login";
 
   const handleClick = () => {
     setActive(!active);
@@ -17,15 +17,22 @@ const Navbar = ({ title }) => {
   return (
     <nav className="sticky top-0 z-40 shadow-lg bg-neutral-50 flex flex-wrap w-full p-3">
       <div className="px-2 mx-2 align-middle inline-flex items-center font-bold text-lg">
-        <Link href="/" className="">
-          <a className="hover:cursor-pointer">
+        {isLogingPage ? (
+          <>
             <FaGithub className="inline pr-2 text-3xl" />
             {title}
-          </a>
-        </Link>
+          </>
+        ) : (
+          <Link href="/" className="">
+            <a className="hover:cursor-pointer">
+              <FaGithub className="inline pr-2 text-3xl" />
+              {title}
+            </a>
+          </Link>
+        )}
       </div>
 
-      {!isLoingPage && (
+      {!isLogingPage && (
         <>
           <button
             className="p-3 hover:bg-blue-400 rounded lg:hidden text-black ml-auto outline-none"

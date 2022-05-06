@@ -17,11 +17,18 @@ function MyApp({ Component, pageProps }) {
   console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  // const [isLoggedIn, setLoggedIn] = useState(false);
+  // const checkLog = async () => {
+  //   return await magic.user.isLoggedIn();
+  // };
+  // const isLoggedIn = ;
   useEffect(async () => {
+    // const logOrNot = await checkLog();
+    // console.log(isLoggedIn);
+    // setLoggedIn(logOrNot);
     const isLoggedIn = await magic.user.isLoggedIn();
-    console.log(isLoggedIn);
     if (isLoggedIn) {
-      router.push("/");
+      router.push(router.asPath);
     } else {
       router.push("/login");
     }
@@ -38,7 +45,7 @@ function MyApp({ Component, pageProps }) {
       router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);
     };
-  }, []);
+  }, [router]);
   return isLoading ? (
     <div className="bg-white flex space-x-2 p-5 rounded-full justify-center items-center">
       <div className="bg-blue-600 p-2  w-4 h-4 rounded-full animate-bounce "></div>
@@ -51,7 +58,10 @@ function MyApp({ Component, pageProps }) {
       <UserProvider>
         <Navbar title="Github Finder"></Navbar>
         <GlobalScrollToTop></GlobalScrollToTop>
-        <Component {...pageProps} />
+        <Component
+          style={{ backgroundImage: "url(/img/wall_paper.jpg)" }}
+          {...pageProps}
+        />
       </UserProvider>
     </UsersProvider>
   );

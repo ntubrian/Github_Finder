@@ -13,17 +13,15 @@ import LocalScrollToTop from "components/LocalScrollToTop";
 import ReposList from "components/ReposList";
 
 export async function getServerSideProps(context) {
-  console.log(process.env.VERCEL_URL);
+  // console.log(process.env.VERCEL_URL);
   const baseURL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : process.env.VERCEL_URL;
+      : `https://${process.env.VERCEL_URL}`;
 
   const FirstReposReq = await (
     await fetch(
-      `https://${baseURL}/api/getUserRepos?username=${
-        context.query.username
-      }&page=${1}`
+      `${baseURL}/api/getUserRepos?username=${context.query.username}&page=${1}`
     )
   ).json();
 
@@ -32,7 +30,7 @@ export async function getServerSideProps(context) {
   // console.log("###Result", reposResult);
 
   const arr = Array(10).fill(0);
-  console.log(context.query);
+  // console.log(context.query);
 
   FirstReposReq.data.forEach((element) => {
     arr.push(element.id);
