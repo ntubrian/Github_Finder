@@ -62,7 +62,7 @@ const Login = () => {
       </Head>
       <main className="w-full h-full relative flex z-10 justify-center mt-16 lg:mt-40">
         <div className="flex flex-col pb-20 pt-8 bg-slate-300 lg:h-2/6 px-6 lg:px-12 rounded-md mx-8 shadow-lg min-w-[292px]">
-          <h1 className="font-bold mb-8">Sign In</h1>
+          <h1 className="font-bold mb-8">Use your email to register</h1>
           {bounceDot && (
             <span className="flex h-3 w-3 absolute mt-12">
               <span className="animate-ping  inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
