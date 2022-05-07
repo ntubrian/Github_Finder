@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { magic } from "lib/magic_login/magicClient";
+import { magiclink } from "lib/magic_login/magicClient";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Login = () => {
@@ -11,6 +11,7 @@ const Login = () => {
   const [bounceDot, setBounceDot] = useState(true);
   const { t } = useTranslation("common");
   const router = useRouter();
+  const magic = magiclink(router.locale);
   const handleOnChangeEmail = (e) => {
     setUserMsg("");
     const email = e.target.value;
@@ -63,7 +64,7 @@ const Login = () => {
       <Head>
         <title>User Sign In</title>
       </Head>
-      <main className="w-full h-full relative flex z-10 justify-center mt-16 lg:mt-40">
+      <main className="w-full h-full relative flex z-10 justify-center mt-16 lg:mt-30">
         <div className="flex flex-col pb-20 pt-8 bg-slate-300 lg:h-2/6 px-6 lg:px-12 rounded-md mx-8 shadow-lg min-w-[292px]">
           <h1 className="font-bold mb-8">{t("use_your_email_to_register")}</h1>
           {bounceDot && (
@@ -85,7 +86,7 @@ const Login = () => {
           <button
             type="button"
             onClick={handleLoginWithEmail}
-            className={`bg-blue-400 px-12 py-2 md:text-xl leading-7 text-white inline-flex items-center justify-center space-x-3 rounded-full whitespace-nowrap ${
+            className={`bg-blue-400 px-12 py-2 md:text-xl leading-7 text-white inline-flex items-center justify-center space-x-3 rounded-full whitespace-nowrap min-w-[145px] ${
               isLoading && "cursor-progress disabled:opacity-50"
             }`}
             disabled={isLoading}

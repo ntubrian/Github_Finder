@@ -13,7 +13,7 @@
 
 .outerContainer {
   /* text-align: center; */
-  
+  height: 100%;
   padding-top: 5vh;
 }
 
@@ -57,10 +57,12 @@
 .navContainer {
   display: flex;
   z-index: 50;
-  position: absolute;
-  top: 30px;
-  left: 20px;
+  /* position: absolute; */
+  /* margin-top: px; */
+  left: 25px;
+  width: 40px;
   transform: scale(2);
+  justify-content: space-evenly;
 }
 
 @media screen and (min-width: 600px) {

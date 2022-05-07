@@ -8,7 +8,7 @@ import UsersProvider from "context/github-users-context";
 import Navbar from "components/Navbar";
 import GlobalScrollToTop from "components/GlobalScrollToTop";
 import { useEffect, useState } from "react";
-import { magic } from "lib/magic_login/magicClient";
+import { magiclink } from "lib/magic_login/magicClient";
 import { appWithTranslation } from "next-i18next";
 import Footer from "components/Footer";
 Router.events.on("routeChangeStart", nProgress.start);
@@ -20,6 +20,8 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   // const [isLoggedIn, setLoggedIn] = useState(false);
+  console.log(router.locale);
+  const magic = magiclink(router.locale);
   // const checkLog = async () => {
   //   return await magic.user.isLoggedIn();
   // };

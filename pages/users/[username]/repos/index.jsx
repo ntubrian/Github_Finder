@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import { UserContext, ACTION_TYPES } from "context/github-user-context";
 import { List, Skeleton, Divider } from "antd";
+import Back from "components/Back";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "antd/dist/antd.css";
 import Image from "next/image";
@@ -186,7 +187,9 @@ const Repos = ({ arr, FirstReposReq }) => {
         <title>{`${userName}'s github repos`}</title>
         <meta name="description" content={`${userName}'s github repos`}></meta>
       </Head>
-
+      <div className={style.navContainer}>
+        <Back backTo={routerProps.back}></Back>
+      </div>
       <div className={style.profileContainer}>
         <div className={style.picContainer}>
           <Image
@@ -195,8 +198,8 @@ const Repos = ({ arr, FirstReposReq }) => {
                 ? indexPageState?.userAvatarUrl[0]
                 : "https://c.tenor.com/I6kN-6X7nhAAAAAi/loading-buffering.gif"
             }
-            width={isBigScreen ? 276 : 200}
-            height={isBigScreen ? 276 : 200}
+            width={isBigScreen ? 276 : 180}
+            height={isBigScreen ? 276 : 180}
             layout="fixed"
             objectFit="cover"
             className={style.circleAvatar}
@@ -217,8 +220,8 @@ const Repos = ({ arr, FirstReposReq }) => {
             height: isBigScreen ? 320 : 200,
             width: "55vw",
             overflow: "auto",
-            padding: "0 16px",
-            border: "1px solid rgba(140, 140, 140, 0.35)",
+            padding: "0 10px",
+            border: "2px solid rgba(140, 140, 140, 0.45)",
           }}
         >
           <LocalScrollToTop

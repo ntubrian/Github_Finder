@@ -5,9 +5,11 @@ const zh = ({ toggle }) => {
 
   return (
     <div
-      className={`text-white ${toggle ? "font-extrabold text-[#4b81ad]" : ""}`}
+      className={`text-white text-base ${
+        toggle ? "font-extrabold text-[#4b81ad]" : ""
+      }`}
     >
-      zh
+      中文
     </div>
   );
 };
