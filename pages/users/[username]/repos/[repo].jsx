@@ -1,19 +1,23 @@
 import Head from "next/head";
 import { useEffect, useContext } from "react";
-import {
-  UserContext,
-  ACTION_TYPES,
-} from "context/github-user-context";
+import { UserContext, ACTION_TYPES } from "context/github-user-context";
 import style from "styles/repo.module.css";
 import { Button } from "antd";
 import { useRouter } from "next/router";
 import Back from "components/Back";
-import Home from "components/Home";
-
-const repo = () => {
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      ...(await serverSideTranslations(context.locale, ["common"])),
+    },
+  };
+}
+const repo = (props) => {
   const { indexPageState, dispatch } = useContext(UserContext);
   const router = useRouter();
-
+  const { t } = useTranslation("common");
   const restoreBackUp = () => {
     dispatch({
       type: ACTION_TYPES.SET_INPUT_USER_NAME,
@@ -88,7 +92,7 @@ const repo = () => {
           shape="round"
           size="large"
         >
-          Take me to the project
+          {t("take_me_to_the_project")}
         </Button>
         <div className={style.starCount}>
           <p className={style.starSize}>⭐</p>

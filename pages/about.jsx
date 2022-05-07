@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const About = () => {
+  const { t } = useTranslation("common");
   return (
     <div className="ml-8 mt-5">
       <div>
@@ -52,5 +54,11 @@ const About = () => {
     </div>
   );
 };
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"])),
+  },
+});
 
 export default About;

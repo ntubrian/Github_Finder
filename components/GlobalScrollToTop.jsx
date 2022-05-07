@@ -7,11 +7,17 @@ const GlobalScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
   const hiddenRoute = {
-    LOGIN: "LOGIN",
+    LOGIN: "login",
   };
   const [isHiddenRoute, setHidden] = useState(
     router.route === hiddenRoute.LOGIN
   );
+
+  useEffect(() => {
+    if (router.route !== hiddenRoute.LOGIN) {
+      setHidden(false);
+    }
+  }, [router.route]);
 
   const toggleVisibility = () => {
     if (window.pageYOffset > 200) {
@@ -36,7 +42,9 @@ const GlobalScrollToTop = () => {
   }, []);
 
   return (
-    <div className={`${isHiddenRoute && "hidden"}fixed bottom-2 right-2 z-30`}>
+    <div
+      className={`${isHiddenRoute ? "hidden" : ""}fixed bottom-2 right-2 z-30`}
+    >
       <button
         type="button"
         onClick={scrollToTop}

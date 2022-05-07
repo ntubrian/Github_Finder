@@ -9,12 +9,14 @@ import Navbar from "components/Navbar";
 import GlobalScrollToTop from "components/GlobalScrollToTop";
 import { useEffect, useState } from "react";
 import { magic } from "lib/magic_login/magicClient";
+import { appWithTranslation } from "next-i18next";
+import Footer from "components/Footer";
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
 Router.events.on("routeChangeComplete", nProgress.done);
 function MyApp({ Component, pageProps }) {
-  console.log(process.env.NODE_ENV);
-  console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
+  // console.log(process.env.NODE_ENV);
+  // console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   // const [isLoggedIn, setLoggedIn] = useState(false);
@@ -56,15 +58,16 @@ function MyApp({ Component, pageProps }) {
   ) : (
     <UsersProvider>
       <UserProvider>
-        <Navbar title="Github Finder"></Navbar>
+        <Navbar title="GitHub Finder"></Navbar>
         <GlobalScrollToTop></GlobalScrollToTop>
         <Component
           style={{ backgroundImage: "url(/img/wall_paper.jpg)" }}
           {...pageProps}
         />
+        <Footer></Footer>
       </UserProvider>
     </UsersProvider>
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

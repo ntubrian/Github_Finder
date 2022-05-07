@@ -11,6 +11,8 @@ import style from "styles/repos.module.css";
 import { getOneUserMeta } from "lib/getOneUserMeta";
 import LocalScrollToTop from "components/LocalScrollToTop";
 import ReposList from "components/ReposList";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps(context) {
   // console.log(process.env.VERCEL_URL);
@@ -42,7 +44,11 @@ export async function getServerSideProps(context) {
   // setLoading(false);
 
   return {
-    props: { arr, FirstReposReq }, // will be passed to the page component as props
+    props: {
+      arr,
+      FirstReposReq,
+      ...(await serverSideTranslations(context.locale, ["common"])),
+    }, // will be passed to the page component as props
   };
 }
 
@@ -59,7 +65,11 @@ const Repos = ({ arr, FirstReposReq }) => {
   const [userReposMeta, setUserReposMeta] = useState(FirstReposReq.data);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(2);
-
+  const { t } = useTranslation("common");
+  const baseURL =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : `https://${NEXT_PUBLIC_VERCEL_URL}`;
   useEffect(async () => {
     setBigScreen(window.innerWidth > 600);
     const userMeta = await getOneUserMeta(
@@ -75,7 +85,6 @@ const Repos = ({ arr, FirstReposReq }) => {
       type: ACTION_TYPES.SET_SELECTED_USER_FOLLOWERS,
       payload: { selectedUserFollowers: userMeta?.data.followers },
     });
-    console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
   }, []);
 
   // 跳到這個route才設定inputUserName可能有點怪？
@@ -90,6 +99,7 @@ const Repos = ({ arr, FirstReposReq }) => {
   };
   const setSeletedRepoContext = (item) => {
     sessionStorage.setItem("selectedRepoName", item.name);
+    sessionStorage.setItem("selectedRepoNodeId", item.node_id);
     sessionStorage.setItem("selectedRepoDescription", item.description);
     sessionStorage.setItem("selectedRepoStarCounts", item.stargazers_count);
     dispatch({
@@ -122,14 +132,14 @@ const Repos = ({ arr, FirstReposReq }) => {
     try {
       const reposResult = await (
         await fetch(
-          `../../api/getUserRepos?username=${sessionStorage.getItem(
+          `${baseURL}/api/getUserRepos?username=${sessionStorage.getItem(
             "inputUserName"
           )}&page=${page}`
         )
       ).json();
       // const result = await response.json();
 
-      console.log("###Result", reposResult);
+      // console.log("###Result", reposResult);
 
       const arr = [];
 
@@ -196,7 +206,7 @@ const Repos = ({ arr, FirstReposReq }) => {
           <h2>{indexPageState.userRealName}</h2>
         )}
         <p>{indexPageState.inputUserName}</p>
-        <p>👥{`${indexPageState.selectedUserFollowers} followers`}</p>
+        <p>👥{`${indexPageState.selectedUserFollowers} ` + t("follower")}</p>
       </div>
 
       <div className={style.reposContainer}>
@@ -204,7 +214,7 @@ const Repos = ({ arr, FirstReposReq }) => {
           id="scrollableDiv"
           className={style.scroll}
           style={{
-            height: 320,
+            height: isBigScreen ? 320 : 200,
             width: "55vw",
             overflow: "auto",
             padding: "0 16px",
@@ -235,7 +245,19 @@ const Repos = ({ arr, FirstReposReq }) => {
               }}
               renderItem={(item) => (
                 <Link
-                  href={`/users/${userName}/repos/${item.name}@${item.node_id}`}
+                  href={`/users/${
+                    userName
+                      ? userName
+                      : sessionStorage.getItem("inputUserName")
+                  }/repos/${
+                    item.name
+                      ? item.name
+                      : sessionStorage.getItem("selectedRepoName")
+                  }@${
+                    item.node_id
+                      ? item.node_id
+                      : sessionStorage.getItem("selectedRepoNodeId")
+                  }`}
                   passHref
                 >
                   <ReposList idArr={idArr} item={item} />

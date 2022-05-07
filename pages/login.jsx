@@ -2,11 +2,14 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { magic } from "lib/magic_login/magicClient";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [userMsg, setUserMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [bounceDot, setBounceDot] = useState(true);
+  const { t } = useTranslation("common");
   const router = useRouter();
   const handleOnChangeEmail = (e) => {
     setUserMsg("");
@@ -35,7 +38,7 @@ const Login = () => {
         setIsLoading(false);
       }
     } else {
-      setUserMsg("Enter a valid email address");
+      setUserMsg(`⚠️${t("enter_valid_email")}`);
       setIsLoading(false);
     }
   };
@@ -62,7 +65,7 @@ const Login = () => {
       </Head>
       <main className="w-full h-full relative flex z-10 justify-center mt-16 lg:mt-40">
         <div className="flex flex-col pb-20 pt-8 bg-slate-300 lg:h-2/6 px-6 lg:px-12 rounded-md mx-8 shadow-lg min-w-[292px]">
-          <h1 className="font-bold mb-8">Use your email to register</h1>
+          <h1 className="font-bold mb-8">{t("use_your_email_to_register")}</h1>
           {bounceDot && (
             <span className="flex h-3 w-3 absolute mt-12">
               <span className="animate-ping  inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
@@ -70,7 +73,7 @@ const Login = () => {
           )}
           <input
             type="text"
-            placeholder="Email address"
+            placeholder={t("email_addr")}
             className="p-1 w-full  h-12 text-base lg:text-xl"
             onChange={handleOnChangeEmail}
             onFocus={handleRemoveDot}
@@ -104,7 +107,11 @@ const Login = () => {
               </svg>
             </span>
 
-            {isLoading ? <span>Loading</span> : <span>Send Magic Link</span>}
+            {isLoading ? (
+              <span>{t("loading")}</span>
+            ) : (
+              <span>{t("send_magic_link")}</span>
+            )}
           </button>
           {isLoading && (
             <div className="flex justify-center h-6">
@@ -118,5 +125,11 @@ const Login = () => {
     </div>
   );
 };
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"])),
+  },
+});
 
 export default Login;
