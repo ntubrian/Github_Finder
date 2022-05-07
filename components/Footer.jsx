@@ -11,6 +11,7 @@ const Footer = () => {
   const toggleClass = " transform translate-x-3 lg:translate-x-6";
 
   const { pathname, asPath, query } = router;
+  console.log(pathname);
   const handleLanguage = () => {
     setToggle(!toggle);
     console.log(router.locale);
