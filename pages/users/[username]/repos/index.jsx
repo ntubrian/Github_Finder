@@ -69,7 +69,7 @@ const Repos = ({ arr, FirstReposReq }) => {
   const baseURL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : `https://${NEXT_PUBLIC_VERCEL_URL}`;
+      : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
   useEffect(async () => {
     setBigScreen(window.innerWidth > 600);
     const userMeta = await getOneUserMeta(
