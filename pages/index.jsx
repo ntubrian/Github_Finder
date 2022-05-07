@@ -17,6 +17,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export default function Home() {
+  console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
   const { indexPageState, dispatch } = useContext(UserContext);
   const { usersPageState, dispatchUsers } = useContext(UsersContext);
   const [isSearchingUsers, setSearchUser] = useState(true);

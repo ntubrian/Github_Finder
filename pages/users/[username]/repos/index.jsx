@@ -132,7 +132,7 @@ const Repos = ({ arr, FirstReposReq }) => {
     try {
       const reposResult = await (
         await fetch(
-          `api/getUserRepos?username=${sessionStorage.getItem(
+          `${baseURL}/api/getUserRepos?username=${sessionStorage.getItem(
             "inputUserName"
           )}&page=${page}`
         )
