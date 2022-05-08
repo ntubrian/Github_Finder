@@ -242,7 +242,9 @@ const Repos = ({ arr, FirstReposReq }) => {
               dataSource={userReposMeta}
               locale={{
                 emptyText:
-                  publicRepoLength > 0 ? t("loading") : t("this_guy_not_leave"),
+                  publicRepoLength > 0
+                    ? `${t("loading")}`
+                    : `${t("this_guy_not_leave")}`,
               }}
               renderItem={(item) => (
                 <Link
