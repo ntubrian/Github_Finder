@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useEffect } from "react";
-import En from "components/i18/en";
-import Zh from "components/i18/zh";
+import { En, Zh } from "components/i18";
 import { useRouter } from "next/router";
 
 const Footer = () => {
