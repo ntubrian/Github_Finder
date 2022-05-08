@@ -8,7 +8,7 @@ const Footer = () => {
   const router = useRouter();
   const [toggle, setToggle] = useState(router.locale === "zh");
   // console.log(router.locale === "zh");
-  const toggleClass = " transform translate-x-3 lg:translate-x-6";
+  const toggleClass = " transform translate-x-4 lg:translate-x-7";
 
   const { pathname, asPath, query } = router;
   console.log(pathname);
@@ -31,7 +31,7 @@ const Footer = () => {
         {/*   Switch Container */}
 
         <div
-          className="md:w-14 md:h-7 w-8 lg:w-12 h-5 lg:h-6 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer"
+          className="md:w-14 md:h-7 w-8 h-4 lg:w-12 lg:h-6 flex items-center bg-gray-400 rounded-full cursor-pointer"
           onClick={handleLanguage}
         >
           {/* Switch */}
