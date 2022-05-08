@@ -235,16 +235,14 @@ const Repos = ({ arr, FirstReposReq }) => {
             next={fetchRepos}
             hasMore={userReposMeta.length < publicRepoLength}
             loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+            endMessage={<Divider plain>{t("its_all")} 🤐</Divider>}
             scrollableTarget="scrollableDiv"
           >
             <List
               dataSource={userReposMeta}
               locale={{
                 emptyText:
-                  publicRepoLength > 0
-                    ? "Loading"
-                    : "This guy doesn't leave any public repos",
+                  publicRepoLength > 0 ? t("loading") : t("this_guy_not_leave"),
               }}
               renderItem={(item) => (
                 <Link
