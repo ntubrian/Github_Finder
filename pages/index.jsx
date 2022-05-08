@@ -13,8 +13,11 @@ import { UserOutlined } from "@ant-design/icons";
 // import { useRouter } from "next/router";
 import useDebounce from "hooks/useDebounce";
 import { set } from "nprogress";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export default function Home() {
+  console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
   const { indexPageState, dispatch } = useContext(UserContext);
   const { usersPageState, dispatchUsers } = useContext(UsersContext);
   const [isSearchingUsers, setSearchUser] = useState(true);
@@ -28,6 +31,7 @@ export default function Home() {
   const [debounceTime, setDebounceTime] = useState(1000);
   // const router = useRouter();
   const debounce = useDebounce(inputUserName, debounceTime);
+  const { t } = useTranslation("common");
   const handleNameInput = (e) => {
     setUserName(e?.target?.value);
   };
@@ -43,7 +47,7 @@ export default function Home() {
       setLoading(true);
       // const returnPicAndName = await getOneUserMeta(inputUserName);  暫時停用
       const tryUsers = await getUsers(inputUserName);
-      console.log(tryUsers);
+
       // console.log(usersPageState.usersMeta);
       dispatchUsers({
         type: ACTION_TYPES2.SET_USERS,
@@ -80,7 +84,6 @@ export default function Home() {
         type: ACTION_TYPES2.SET_USERS,
         payload: { usersMeta: [] },
       });
-      console.log("debounce", debounce);
     } else {
       setDebounceTime(1000);
     }
@@ -98,7 +101,7 @@ export default function Home() {
         <div>
           <div className={`${styles.transForm} w-60 mx-auto mb-10 mt-4`}>
             <Input
-              placeholder="find user(s)"
+              placeholder={t("find_user")}
               prefix={<UserOutlined />}
               value={inputUserName}
               onChange={handleNameInput}
@@ -142,3 +145,9 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"])),
+  },
+});

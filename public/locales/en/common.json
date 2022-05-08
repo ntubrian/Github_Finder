@@ -1,0 +1,15 @@
+{"use_your_email_to_register": "Use your email to register",
+"email_addr": "Email address",
+"enter_valid_email": "Please enter a valid email address",
+"send_magic_link": "Send Magic Link",
+"loading": "Loading",
+    "home": "Home",
+"about": "About",
+"find_user": "find GitHub user(s)",
+"visit_profile": "visit profile",
+"follower": "follower(s)",
+"take_me_to_the_project": "Take me to the project",
+"sign_out": "Sign out", 
+"its_all": "It is all, nothing more",
+"this_guy_not_leave": "This guy doesn't leave any public repos"
+}

@@ -13,8 +13,8 @@
 
 .outerContainer {
   /* text-align: center; */
-
-  padding-top: 10vh;
+  height: 100%;
+  padding-top: 5vh;
 }
 
 .profileContainer {
@@ -57,10 +57,12 @@
 .navContainer {
   display: flex;
   z-index: 50;
-  position: absolute;
-  top: 30px;
-  left: 20px;
+  /* position: absolute; */
+  /* margin-top: px; */
+  left: 25px;
+  width: 40px;
   transform: scale(2);
+  justify-content: space-evenly;
 }
 
 @media screen and (min-width: 600px) {
@@ -77,7 +79,7 @@
   }
   .outerContainer {
     display: flex;
-    padding-top: 10vh;
+    padding-top: 7vh;
   }
   .profileContainer {
     text-align: center;
@@ -105,9 +107,10 @@
     display: flex;
     z-index: 50;
     position: absolute;
-    top: 40px;
-    left: 40px;
-    transform: scale(3);
+    
+    justify-content: space-evenly;
+    left: 54px;
+    transform: scale(2.5);
   }
 
   /* #scrollableDiv {

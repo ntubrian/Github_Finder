@@ -5,13 +5,15 @@ import { ACTION_TYPES, UserContext } from "context/github-user-context";
 import { Card } from "antd";
 import style from "styles/Home.module.css";
 import { getOneUserMeta } from "lib/getOneUserMeta";
+import { useTranslation } from "next-i18next";
+
 const ShowUsersResult = (props) => {
   const { inputUserName, meta, debounce } = props;
   const [new_href, setNewHref] = useState("");
   const { indexPageState, dispatch } = useContext(UserContext);
   const { Meta } = Card;
   const [scrrenWidth, setScreenWidth] = useState(0);
-
+  const { t } = useTranslation("common");
   const keepCardInfo = () => {
     sessionStorage.setItem("inputUserName", meta?.login);
     sessionStorage.setItem("userAvatarUrl", meta?.avatar_url);
@@ -85,7 +87,7 @@ const ShowUsersResult = (props) => {
         >
           <Meta
             title={meta?.login == "null" ? "" : meta?.login} // 這邊要記得改為 .name
-            description="visit profile"
+            description={t("visit_profile")}
           />
         </Card>
       )}

@@ -1,13 +1,17 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { magic } from "lib/magic_login/magicClient";
-const Login = () => {
+// import { magic } from "lib/magic_login/magicClient";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+const Login = ({ magic }) => {
   const [email, setEmail] = useState("");
   const [userMsg, setUserMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [bounceDot, setBounceDot] = useState(true);
+  const { t } = useTranslation("common");
   const router = useRouter();
+
   const handleOnChangeEmail = (e) => {
     setUserMsg("");
     const email = e.target.value;
@@ -20,6 +24,7 @@ const Login = () => {
       // router.push("/");
       try {
         setIsLoading(true);
+
         const didToken = await magic.auth.loginWithMagicLink({
           email: email,
         });
@@ -35,7 +40,7 @@ const Login = () => {
         setIsLoading(false);
       }
     } else {
-      setUserMsg("Enter a valid email address");
+      setUserMsg(`⚠️${t("enter_valid_email")}`);
       setIsLoading(false);
     }
   };
@@ -60,9 +65,9 @@ const Login = () => {
       <Head>
         <title>User Sign In</title>
       </Head>
-      <main className="w-full h-full relative flex z-10 justify-center mt-16 lg:mt-40">
+      <main className="w-full h-full relative flex z-10 justify-center mt-16 lg:mt-30">
         <div className="flex flex-col pb-20 pt-8 bg-slate-300 lg:h-2/6 px-6 lg:px-12 rounded-md mx-8 shadow-lg min-w-[292px]">
-          <h1 className="font-bold mb-8">Use your email to register</h1>
+          <h1 className="font-bold mb-8">{t("use_your_email_to_register")}</h1>
           {bounceDot && (
             <span className="flex h-3 w-3 absolute mt-12">
               <span className="animate-ping  inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
@@ -70,7 +75,7 @@ const Login = () => {
           )}
           <input
             type="text"
-            placeholder="Email address"
+            placeholder={t("email_addr")}
             className="p-1 w-full  h-12 text-base lg:text-xl"
             onChange={handleOnChangeEmail}
             onFocus={handleRemoveDot}
@@ -82,7 +87,7 @@ const Login = () => {
           <button
             type="button"
             onClick={handleLoginWithEmail}
-            className={`bg-blue-400 px-12 py-2 md:text-xl leading-7 text-white inline-flex items-center justify-center space-x-3 rounded-full whitespace-nowrap ${
+            className={`bg-blue-400 px-12 py-2 md:text-xl leading-7 text-white inline-flex items-center justify-center space-x-3 rounded-full whitespace-nowrap min-w-[145px] ${
               isLoading && "cursor-progress disabled:opacity-50"
             }`}
             disabled={isLoading}
@@ -99,12 +104,16 @@ const Login = () => {
                 <path
                   d="M20.1474 2.1798L2.63237 12.2521C1.73316 12.7596 1.81135 14.0869 2.74966 14.4773L8.26222 16.7417V20.7237C8.26222 21.934 9.70878 22.4415 10.4516 21.5436L12.8365 18.6546L17.7626 20.6847C18.5054 20.997 19.3655 20.5285 19.4828 19.7087L21.985 3.42907C22.1413 2.41404 21.0467 1.63324 20.1474 2.1798ZM9.51329 20.7237V17.2882L11.6245 18.1471L9.51329 20.7237ZM18.2708 19.5525L10.1779 16.1951L17.9972 7.02074C18.1926 6.7865 17.8799 6.47418 17.6453 6.66938L7.67578 15.1801L3.25791 13.3452L20.773 3.23388L18.2708 19.5525Z"
                   fill="#FFFFFF"
-                  fill-opacity="1"
+                  fillOpacity="1"
                 ></path>
               </svg>
             </span>
 
-            {isLoading ? <span>Loading</span> : <span>Send Magic Link</span>}
+            {isLoading ? (
+              <span>{t("loading")}</span>
+            ) : (
+              <span>{t("send_magic_link")}</span>
+            )}
           </button>
           {isLoading && (
             <div className="flex justify-center h-6">
@@ -118,5 +127,11 @@ const Login = () => {
     </div>
   );
 };
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["common"])),
+  },
+});
 
 export default Login;

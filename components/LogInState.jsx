@@ -2,12 +2,15 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { magic } from "lib/magic_login/magicClient";
-const LogInState = () => {
+// import { magic } from "lib/magic_login/magicClient";
+import { useTranslation } from "next-i18next";
+const LogInState = ({ magic }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const { t } = useTranslation("common");
   // const [username, setUsername] = useState("QQ");
   const router = useRouter();
+
   const handleShowDropdown = (e) => {
     e.preventDefault();
     setShowDropdown(!showDropdown);
@@ -30,6 +33,7 @@ const LogInState = () => {
     try {
       const { email, publicAddress } = await magic.user.getMetadata();
       if (email) {
+        console.log("EMAIL", email);
         setUserEmail(email);
       }
     } catch (err) {
@@ -76,7 +80,7 @@ const LogInState = () => {
               className="block px-2 text-sm lg:text-base leading-5 rounded "
               onClick={handleSignout}
             >
-              Sign out
+              {t("sign_out")}
             </a>
             <div className="px-2"></div>
           </div>

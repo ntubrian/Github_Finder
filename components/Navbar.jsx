@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import LogInState from "components/LogInState";
-import { magic } from "lib/magic_login/magicClient";
+import { useTranslation } from "next-i18next";
 // import PropTypes from "prop-types";
-const Navbar = ({ title }) => {
+const Navbar = ({ title, magic }) => {
   const [active, setActive] = useState(false);
   const isLogingPage = useRouter().asPath === "/login";
-
+  const { t } = useTranslation("common");
   const handleClick = () => {
     setActive(!active);
   };
@@ -61,15 +61,15 @@ const Navbar = ({ title }) => {
             <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
               <Link href="/">
                 <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded font-bold items-center justify-center hover:bg-gray-600 hover:text-white ">
-                  Home
+                  {t("home")}
                 </a>
               </Link>
               <Link href="/about">
                 <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded font-bold items-center justify-center hover:bg-gray-600 hover:text-white ">
-                  about
+                  {t("about")}
                 </a>
               </Link>
-              <LogInState></LogInState>
+              <LogInState magic={magic}></LogInState>
             </div>
           </div>
         </>

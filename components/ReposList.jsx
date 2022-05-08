@@ -5,8 +5,9 @@ import { useContext } from "react";
 import { UserContext, ACTION_TYPES } from "context/github-user-context";
 const ReposList = React.forwardRef(({ onClick, href, idArr, item }, ref) => {
   const { dispatch } = useContext(UserContext);
-  const setSeletedRepoContext = (item) => {
+  const setSeletedRepoContext = () => {
     sessionStorage.setItem("selectedRepoName", item.name);
+    sessionStorage.setItem("selectedRepoNodeId", item.node_id);
     sessionStorage.setItem("selectedRepoDescription", item.description);
     sessionStorage.setItem("selectedRepoStarCounts", item.stargazers_count);
     dispatch({
@@ -34,7 +35,7 @@ const ReposList = React.forwardRef(({ onClick, href, idArr, item }, ref) => {
     <a href={href} onClick={onClick} ref={ref}>
       <List.Item
         key={item.id}
-        onClick={() => setSeletedRepoContext(item)}
+        onClick={setSeletedRepoContext}
         className={`${style.listItem} ${
           Math.floor(idArr.indexOf(item.id) / 10) % 2 == 1
             ? style.oddGroupPage
