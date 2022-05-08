@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import LogInState from "components/LogInState";
 import { useTranslation } from "next-i18next";
 // import PropTypes from "prop-types";
-const Navbar = ({ title }) => {
+const Navbar = ({ title, magic }) => {
   const [active, setActive] = useState(false);
   const isLogingPage = useRouter().asPath === "/login";
   const { t } = useTranslation("common");
@@ -69,7 +69,7 @@ const Navbar = ({ title }) => {
                   {t("about")}
                 </a>
               </Link>
-              <LogInState></LogInState>
+              <LogInState magic={magic}></LogInState>
             </div>
           </div>
         </>

@@ -20,8 +20,9 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   // const [isLoggedIn, setLoggedIn] = useState(false);
-  console.log(router.locale);
+  // console.log(router.locale);
   const magic = magiclink(router.locale);
+
   // const checkLog = async () => {
   //   return await magic.user.isLoggedIn();
   // };
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps }) {
     // const logOrNot = await checkLog();
     // console.log(isLoggedIn);
     // setLoggedIn(logOrNot);
+
     const isLoggedIn = await magic.user.isLoggedIn();
     if (isLoggedIn) {
       router.push(router.asPath);
@@ -60,10 +62,11 @@ function MyApp({ Component, pageProps }) {
   ) : (
     <UsersProvider>
       <UserProvider>
-        <Navbar title="GitHub Finder"></Navbar>
+        <Navbar title="GitHub Finder" magic={magic}></Navbar>
         <GlobalScrollToTop></GlobalScrollToTop>
         <Component
           style={{ backgroundImage: "url(/img/wall_paper.jpg)" }}
+          magic={magic}
           {...pageProps}
         />
         <Footer></Footer>
